@@ -1,12 +1,12 @@
 const ParkService = {
     getAllParks(knex){
-        return knex.select().from('parks')
+        return knex.select('*').from('parks')
     },
     getParksByFullName(knex, fullname){
         return knex
         .select()
-        .from('parks')
-        .where('fullname', 'like', fullname)
+        .table('parks')
+        .where('fullname', fullname)
         .first()
     }
 }

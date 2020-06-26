@@ -37,7 +37,7 @@ app.get('/parks',(req, res, next) =>{
     const knexInstance = req.app.get('db')
     ParkService.getAllParks(knexInstance)
         .then(parks => {
-            console.log(parks)
+            console.log('the parks route is activated')
             res.json(parks)
         })
         .catch(next)
@@ -45,9 +45,11 @@ app.get('/parks',(req, res, next) =>{
 
 app.get('/park/:fullname', (req, res, next) => {
     const knexInstance = req.app.get('db')
+    const fullname = req.params.fullname
     ParkService.getParksByFullName(knexInstance, fullname)
         .then(park => {
-            console.log(req.param.fullname)
+            console.log('the dynamic path is activated')
+            console.log(fullname)
             res.json(park)
         })
         .catch(next)
@@ -56,12 +58,12 @@ app.get('/park/:fullname', (req, res, next) => {
 app.get('/users', (req, res, next) => {
     const knexInstance = req.app.get('db')
     UserService.getAllUsers(knexInstance)
-    .then(users => {
-        res.json(users)
-    })
-    .catch(next)
+        .then(users => {
+            console.log(users)
+            res.json(users)
+        })
+        .catch(next)
 })
-
 app.use(function errorHandler(error, req, res, next) {
     let response
     if (NODE_ENV === 'production') {

@@ -1,6 +1,6 @@
 const UserService = {
-    getAllUsers() {
-        return Promise.resolve('lets see what happens here')
+    getAllUsers(knex){
+        return knex.select().from('users')
     }
 }
 
