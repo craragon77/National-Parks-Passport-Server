@@ -4,4 +4,4 @@ const UserService = {
     }
 }
 
-module.export = UserService
+module.exports = UserService
