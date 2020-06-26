@@ -37,6 +37,7 @@ app.get('/parks',(req, res, next) =>{
     const knexInstance = req.app.get('db')
     ParkService.getAllParks(knexInstance)
         .then(parks => {
+            console.log(parks)
             res.json(parks)
         })
         .catch(next)
@@ -44,8 +45,9 @@ app.get('/parks',(req, res, next) =>{
 
 app.get('/park/:fullname', (req, res, next) => {
     const knexInstance = req.app.get('db')
-    ParkService.getParksByFullName(knexInstance, req.params.fullname)
+    ParkService.getParksByFullName(knexInstance, fullname)
         .then(park => {
+            console.log(req.param.fullname)
             res.json(park)
         })
         .catch(next)
