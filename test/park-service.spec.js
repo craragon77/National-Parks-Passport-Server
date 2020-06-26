@@ -38,7 +38,7 @@ describe(`Articles service object`, function() {
 
     afterEach('cleanup', () => db('parks').truncate())
 
-    describe(`getAllArticles()`, () => {
+    describe(`getAllParks()`, () => {
         it(`resolves all parks from parks table`, () =>{
             return ParkService.getAllParks(db)
             .then(() => {
@@ -46,7 +46,7 @@ describe(`Articles service object`, function() {
             })
         })
     })
-    describe.only('getParkbyFullName', () => {
+    describe('getParkbyFullName', () => {
         it(`fetches a single park based on an input name`, () => {
             let fullname = testParks[0].fullname
             return ParkService.getParksByFullName(db)

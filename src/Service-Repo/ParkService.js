@@ -2,10 +2,10 @@ const ParkService = {
     getAllParks(knex){
         return knex.select().from('parks')
     },
-    getParksByFullName(knex){
+    getParksByFullName(knex, fullname){
         return knex
         .select()
-        .table('parks')
+        .from('parks')
         .where('fullname', fullname)
         .first()
     }

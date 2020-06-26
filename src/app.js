@@ -6,7 +6,8 @@ const helmet = require('helmet')
 const {NODE_ENV} = require('./config')
 const {CLIENT_ORIGIN} = require('./config');
 const ParkService = require('./Service-Repo/ParkService');
-const ParkRouter = require('./Router-Repo/ParksRouter')
+const ParkRouter = require('./Router-Repo/ParksRouter');
+const UserService = require('../src/Service-Repo/UserService');
 const knex = require('knex');
 
 const app = express()
@@ -41,13 +42,22 @@ app.get('/parks',(req, res, next) =>{
         .catch(next)
 })
 
-app.get('/park/:fullName', (req, res, next) => {
+app.get('/park/:fullname', (req, res, next) => {
     const knexInstance = req.app.get('db')
     ParkService.getParksByFullName(knexInstance, req.params.fullname)
         .then(park => {
             res.json(park)
         })
         .catch(next)
+})
+
+app.get('/users', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    UserService.getAllUsers(knexInstance)
+    .then(users => {
+        res.json(users)
+    })
+    .catch(next)
 })
 
 app.use(function errorHandler(error, req, res, next) {
