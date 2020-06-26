@@ -1,6 +1,6 @@
 const UserService = {
     getAllUsers() {
-        Promise.resolve('lets see what happens here')
+        return Promise.resolve('lets see what happens here')
     }
 }
 

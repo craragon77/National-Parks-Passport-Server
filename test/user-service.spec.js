@@ -43,9 +43,10 @@ describe(`Users service object`, function() {
     after(() => db.destroy())
 
 
-    describe.only('getAllUsers', () => {
+    describe('getAllUsers', () => {
         it(`fetches all users from the users table`, () =>{
-            expect(200, 'lets see what happens here')
+            return UserService.getAllUsers()
+                .expect(200, testUsers)
         })
     })
 })

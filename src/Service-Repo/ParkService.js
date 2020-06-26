@@ -6,8 +6,8 @@ const ParkService = {
         return knex
         .select()
         .from('parks')
-        .where('fullname', fullname)
-        .first()
+        .where('fullname', 'like', '%fullname%')
+        //.first()
     }
 }
 

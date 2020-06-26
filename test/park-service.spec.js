@@ -46,7 +46,7 @@ describe(`Articles service object`, function() {
             })
         })
     })
-    describe('getParkbyFullName', () => {
+    describe.only('getParkbyFullName', () => {
         it(`fetches a single park based on an input name`, () => {
             let fullname = testParks[0].fullname
             return ParkService.getParksByFullName(db)

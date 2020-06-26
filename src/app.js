@@ -7,7 +7,7 @@ const {NODE_ENV} = require('./config')
 const {CLIENT_ORIGIN} = require('./config');
 const ParkService = require('./Service-Repo/ParkService');
 const ParkRouter = require('./Router-Repo/ParksRouter');
-const UserService = require('../src/Service-Repo/UserService');
+const UserService = require('./Service-Repo/UserService');
 const knex = require('knex');
 
 const app = express()
