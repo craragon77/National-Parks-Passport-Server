@@ -1,0 +1,1 @@
+ALTER TABLE parks ADD url TEXT;

@@ -1,0 +1,1 @@
+ALTER TABLE users ADD nickname TEXT NOT NULL;

@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS parks (
+    states TEXT NOT NULL,
+    image TEXT NOT NULL,
+    parkCode TEXT NOT NULL,
+    id INTEGER PRIMARY KEY NOT NULL,
+    fullName TEXT NOT NULL
+);

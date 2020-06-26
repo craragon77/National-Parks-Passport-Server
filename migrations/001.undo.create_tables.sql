@@ -1,0 +1,11 @@
+
+
+
+
+DROP TABLE IF EXISTS stampbook;
+
+DROP TABLE IF EXISTS bucketlist;
+
+DROP TABLE IF EXISTS parks;
+
+DROP TABLE IF EXISTS users;

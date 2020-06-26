@@ -5,6 +5,9 @@ const cors = require('cors')
 const helmet = require('helmet')
 const {NODE_ENV} = require('./config')
 const {CLIENT_ORIGIN} = require('./config');
+const ParkService = require('./Service-Repo/ParkService');
+const ParkRouter = require('./Router-Repo/ParksRouter')
+const knex = require('knex');
 
 const app = express()
 
@@ -20,8 +23,31 @@ app.use(
     })
 );
 
+const knexInstance = knex({
+    client: 'pg',
+    connection: process.env.DB_URL
+})
+
 app.get('/', (req,res) => {
     res.send('Hello, Dave')
+})
+
+app.get('/parks',(req, res, next) =>{
+    const knexInstance = req.app.get('db')
+    ParkService.getAllParks(knexInstance)
+        .then(parks => {
+            res.json(parks)
+        })
+        .catch(next)
+})
+
+app.get('/park/:fullName', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    ParkService.getParksByFullName(knexInstance, req.params.fullname)
+        .then(park => {
+            res.json(park)
+        })
+        .catch(next)
 })
 
 app.use(function errorHandler(error, req, res, next) {
