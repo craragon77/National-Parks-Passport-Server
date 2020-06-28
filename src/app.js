@@ -9,6 +9,7 @@ const ParkService = require('./Service-Repo/ParkService');
 const ParkRouter = require('./Router-Repo/ParksRouter');
 const UserService = require('./Service-Repo/UserService');
 const knex = require('knex');
+const StampBookService = require('./Service-Repo/StampbookService')
 
 const app = express()
 
@@ -63,6 +64,14 @@ app.get('/users', (req, res, next) => {
             res.json(users)
         })
         .catch(next)
+})
+
+app.get('/stampbook', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    StampBookService.getAllStamps(knexInstance)
+        .then(stamps => {
+            res.json(stamps)
+        })
 })
 app.use(function errorHandler(error, req, res, next) {
     let response
