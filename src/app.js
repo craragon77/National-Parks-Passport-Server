@@ -9,7 +9,8 @@ const ParkService = require('./Service-Repo/ParkService');
 const ParkRouter = require('./Router-Repo/ParksRouter');
 const UserService = require('./Service-Repo/UserService');
 const knex = require('knex');
-const StampBookService = require('./Service-Repo/StampbookService')
+const StampBookService = require('./Service-Repo/StampbookService');
+const BucketListService = require('./Service-Repo/BucketListService');
 
 const app = express()
 
@@ -72,6 +73,16 @@ app.get('/stampbook', (req, res, next) => {
         .then(stamps => {
             res.json(stamps)
         })
+        .catch(next)
+})
+
+app.get('/bucketlist', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    BucketListService.getAllBucketList(knexInstance)
+        .then(bucket => {
+            res.json(bucket)
+        })
+        .catch(next)
 })
 app.use(function errorHandler(error, req, res, next) {
     let response
