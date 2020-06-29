@@ -45,16 +45,29 @@ app.get('/parks',(req, res, next) =>{
         .catch(next)
 })
 
-app.get('/park/:fullname', (req, res, next) => {
+app.get('/parks/:fullname', (req, res, next) => {
     const knexInstance = req.app.get('db')
     const fullname = req.params.fullname
-    ParkService.getParksByFullName(knexInstance, fullname)
+    ParkService.getParkByFullName(knexInstance, fullname)
         .then(park => {
             console.log('the dynamic path is activated')
             console.log(fullname)
             res.json(park)
         })
         .catch(next)
+})
+
+app.get('/parks/:id', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    const id = req.params.id
+    ParkService.getParkById(knexInstance, id)
+        .then(id => {
+            console.log(id)
+            console.log('the id endpoint has been activated')
+            res.json(id)
+        })
+        .catch(next)
+
 })
 
 app.get('/users', (req, res, next) => {
