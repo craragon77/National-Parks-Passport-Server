@@ -13,7 +13,8 @@ const StampBookService = require('./Service-Repo/StampbookService');
 const BucketListService = require('./Service-Repo/BucketListService');
 const UserRouter = require('./Router-Repo/UserRouter');
 const StampRouter = require('./Router-Repo/StampBookRouter');
-const StampBookRouter = require('./Router-Repo/StampBookRouter')
+const StampBookRouter = require('./Router-Repo/StampBookRouter');
+const BucketListRouter = require('./Router-Repo/BucketListRouter');
 
 const app = express()
 
@@ -44,27 +45,9 @@ app.use('/users', UserRouter)
 
 app.use('/stampbook', StampBookRouter)
 
-/*app.get('/stampbook', (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    StampBookService.getAllStamps(knexInstance)
-        .then(stamps => {
-            res.json(stamps)
-        })
-        .catch(next)
-})
+app.use('/bucketlist', BucketListRouter)
 
-app.get('/stampbook/:stampId', (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    const stamp_id = req.params.stampId
-    StampBookService.getStampById(knexInstance, stamp_id)
-        .then(stamp => {
-            console.log('the dynamic stamp endpoint has activated!')
-            res.json(stamp)
-        })
-        .catch(next)
-}) */
-
-app.get('/bucketlist', (req, res, next) => {
+/*app.get('/bucketlist', (req, res, next) => {
     const knexInstance = req.app.get('db')
     BucketListService.getAllBucketList(knexInstance)
         .then(bucket => {
@@ -72,6 +55,17 @@ app.get('/bucketlist', (req, res, next) => {
         })
         .catch(next)
 })
+
+app.get('/bucketlist/:bucketlistId', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    const bucketlist_id = req.params.bucketlistId
+    BucketListService.getBucketListById(knexInstance, bucketlist_id)
+        .then(id => {
+            res.json(id)
+        })
+        .catch(next)
+})
+*/
 app.use(function errorHandler(error, req, res, next) {
     let response
     if (NODE_ENV === 'production') {
