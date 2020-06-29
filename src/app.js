@@ -35,39 +35,7 @@ app.get('/', (req,res) => {
     res.send('Hello, Dave')
 })
 
-app.get('/parks',(req, res, next) =>{
-    const knexInstance = req.app.get('db')
-    ParkService.getAllParks(knexInstance)
-        .then(parks => {
-            console.log('the parks route is activated')
-            res.json(parks)
-        })
-        .catch(next)
-})
-
-app.get('/parks/name/:fullname', (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    const fullname = req.params.fullname
-    ParkService.getParkByFullName(knexInstance, fullname)
-        .then(park => {
-            console.log('the dynamic path is activated')
-            console.log(fullname)
-            res.json(park)
-        })
-        .catch(next)
-})
-
-app.get('/parks/id/:id', (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    const id = req.params.id
-    ParkService.getParkById(knexInstance, id)
-        .then(park => {
-            console.log(park)
-            console.log('the id endpoint has been activated')
-            res.json(park)
-        })
-        .catch(next)
-})
+app.use('/parks', ParkRouter)
 
 app.get('/users', (req, res, next) => {
     const knexInstance = req.app.get('db')
