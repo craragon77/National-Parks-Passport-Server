@@ -79,11 +79,33 @@ app.get('/users', (req, res, next) => {
         .catch(next)
 })
 
+app.get('/users/:id', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    const id = req.params.id
+    UserService.getUserById(knexInstance, id)
+        .then(user => {
+            console.log(user)
+            res.json(user)
+        })
+        .catch(next)
+})
+
 app.get('/stampbook', (req, res, next) => {
     const knexInstance = req.app.get('db')
     StampBookService.getAllStamps(knexInstance)
         .then(stamps => {
             res.json(stamps)
+        })
+        .catch(next)
+})
+
+app.get('/stampbook/:stampId', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    const stamp_id = req.params.stampId
+    StampBookService.getStampById(knexInstance, stamp_id)
+        .then(stamp => {
+            console.log('the dynamic stamp endpoint has activated!')
+            res.json(stamp)
         })
         .catch(next)
 })
