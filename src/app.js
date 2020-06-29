@@ -12,6 +12,8 @@ const knex = require('knex');
 const StampBookService = require('./Service-Repo/StampbookService');
 const BucketListService = require('./Service-Repo/BucketListService');
 const UserRouter = require('./Router-Repo/UserRouter');
+const StampRouter = require('./Router-Repo/StampBookRouter');
+const StampBookRouter = require('./Router-Repo/StampBookRouter')
 
 const app = express()
 
@@ -40,7 +42,9 @@ app.use('/parks', ParkRouter)
 
 app.use('/users', UserRouter)
 
-app.get('/stampbook', (req, res, next) => {
+app.use('/stampbook', StampBookRouter)
+
+/*app.get('/stampbook', (req, res, next) => {
     const knexInstance = req.app.get('db')
     StampBookService.getAllStamps(knexInstance)
         .then(stamps => {
@@ -58,7 +62,7 @@ app.get('/stampbook/:stampId', (req, res, next) => {
             res.json(stamp)
         })
         .catch(next)
-})
+}) */
 
 app.get('/bucketlist', (req, res, next) => {
     const knexInstance = req.app.get('db')
