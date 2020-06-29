@@ -3,7 +3,7 @@ const xss = require('xss');
 const ParksService = require('../Service-Repo/ParkService');
 const app = require('../app');
 const ParkRouter = express.Router();
-const jsonParser = express.json()
+const jsonParser = express.json();
 
 ParkRouter
     .route('/')

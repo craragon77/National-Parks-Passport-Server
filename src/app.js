@@ -11,6 +11,7 @@ const UserService = require('./Service-Repo/UserService');
 const knex = require('knex');
 const StampBookService = require('./Service-Repo/StampbookService');
 const BucketListService = require('./Service-Repo/BucketListService');
+const UserRouter = require('./Router-Repo/UserRouter');
 
 const app = express()
 
@@ -37,26 +38,7 @@ app.get('/', (req,res) => {
 
 app.use('/parks', ParkRouter)
 
-app.get('/users', (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    UserService.getAllUsers(knexInstance)
-        .then(users => {
-            console.log(users)
-            res.json(users)
-        })
-        .catch(next)
-})
-
-app.get('/users/:id', (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    const id = req.params.id
-    UserService.getUserById(knexInstance, id)
-        .then(user => {
-            console.log(user)
-            res.json(user)
-        })
-        .catch(next)
-})
+app.use('/users', UserRouter)
 
 app.get('/stampbook', (req, res, next) => {
     const knexInstance = req.app.get('db')
