@@ -45,7 +45,7 @@ app.get('/parks',(req, res, next) =>{
         .catch(next)
 })
 
-app.get('/parks/:fullname', (req, res, next) => {
+app.get('/parks/name/:fullname', (req, res, next) => {
     const knexInstance = req.app.get('db')
     const fullname = req.params.fullname
     ParkService.getParkByFullName(knexInstance, fullname)
@@ -57,17 +57,16 @@ app.get('/parks/:fullname', (req, res, next) => {
         .catch(next)
 })
 
-app.get('/parks/:id', (req, res, next) => {
+app.get('/parks/id/:id', (req, res, next) => {
     const knexInstance = req.app.get('db')
     const id = req.params.id
     ParkService.getParkById(knexInstance, id)
-        .then(id => {
-            console.log(id)
+        .then(park => {
+            console.log(park)
             console.log('the id endpoint has been activated')
-            res.json(id)
+            res.json(park)
         })
         .catch(next)
-
 })
 
 app.get('/users', (req, res, next) => {
