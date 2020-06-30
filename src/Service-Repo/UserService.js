@@ -7,6 +7,16 @@ const UserService = {
         .from('users')
         .where('id', id)
         .first()
+    },
+    postNewUser(knex, newUser){
+        return knex()
+        .insert(newUser)
+        .into('users')
+        .returning()
+        .then((row) => {
+            return row[0]
+        })
+
     }
 }
 

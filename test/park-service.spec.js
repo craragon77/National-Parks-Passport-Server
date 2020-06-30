@@ -1,24 +1,11 @@
 const ParkService = require('../src/Service-Repo/ParkService')
 const knex = require('knex')
+const app = require('../src/app');
+const {makeParksArray} = require('./park.fixtures')
 
 describe(`Articles service object`, function() {
     let db
-    let testParks = [
-        {
-            states: 'MD',
-            image: 'image1.jpg',
-            parkcode:'park', 
-            id: 420,
-            fullname:'Park-1'
-        },
-        {
-            states: 'TU',
-            image: 'image2.jpg',
-            parkcode:'nuts', 
-            id: 69,
-            fullname: 'Park-2'
-        }
-    ]
+    const testParks = makeParksArray()
     before(() => {
         db = knex({
             client: 'pg',
@@ -38,7 +25,7 @@ describe(`Articles service object`, function() {
 
     afterEach('cleanup', () => db('parks').truncate())
 
-    describe(`getAllParks()`, () => {
+    describe(`get all parks`, () => {
         it(`resolves all parks from parks table`, () =>{
             return ParkService.getAllParks(db)
             .then(() => {
@@ -46,12 +33,12 @@ describe(`Articles service object`, function() {
             })
         })
     })
-    describe('getParkbyFullName', () => {
+    describe.only('getParkbyFullName', () => {
         it(`fetches a single park based on an input name`, () => {
             let targetFullname = 'Park-1'
             let expectedName = testParks[0].fullname
-            return ParkService.getParksByFullName(db)
-                .get(`/parks/${targetFullname}`)
+            return supertest(app)
+                .get(`/parks/fullname/${targetFullname}`)
                 .expect(200, expectedName)
         })
     })

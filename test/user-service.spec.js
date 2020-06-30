@@ -45,8 +45,10 @@ describe(`Users service object`, function() {
 
     describe('getAllUsers', () => {
         it(`fetches all users from the users table`, () =>{
-            return UserService.getAllUsers()
-                .expect(200, testUsers)
+            return UserService.getAllUsers(db)
+                .then(() => {
+                    expect(200, testUsers)
+                })
         })
     })
 })
