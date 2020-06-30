@@ -23,6 +23,7 @@ StampBookRouter
             .then(stamp => {
                 res
                 .status(201)
+                .send(newStamp)
                 .location(`/stampbook/${stamp_id}`)
                 .json(stamp)
             })
