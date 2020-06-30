@@ -34,15 +34,13 @@ describe(`Articles service object`, function() {
         })
     })
     describe.only('getParkbyFullName', () => {
-        it(`fetches a single park based on an input name`, () => {
+            it(`fetches a single park based on an input name`, () => {
             let targetFullname = 'Park-1'
             let expectedName = testParks[0].fullname
-            return ParkService.getParkByFullName(db)
-            .then(() => {
-                get(`/parks/fullname/${targetFullname}`)
-                expect(200, expectedName)
-            })
-                
+            return supertest(app)
+                .get(`/parks/name/${targetFullname}`)
+                .expect(200, expectedName)
         })
+        
     })
 })
