@@ -15,17 +15,19 @@ BucketListRouter
         })
         .catch(next)
     })
-    .post((req, res, next) => {
-        const {user_id, park_id} = req.params
+    .post(jsonParser, (req, res, next) => {
+        const {user_id, park_id} = req.body
         const newBucketList = {user_id, park_id}
         const knexInstance = req.app.get('db')
         BucketListService.postNewBucketList(knexInstance, newBucketList)
             .then(bucket => {
                 res
                 .status(201)
+                .send(newBucketList)
                 .location(`/bucketlist/${bucketlist_id}`)
                 .json(bucket)
             })
+            .catch(next)
     })
 
 BucketListRouter
