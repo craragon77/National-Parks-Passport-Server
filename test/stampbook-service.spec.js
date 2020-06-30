@@ -31,4 +31,13 @@ describe('Stampbook Service file', function(){
                 })
         })
     })
+    describe('Get stamp by id', () => {
+        it('fetches a stamp based on the id', () => {
+            let targetId = 1
+            let expectedStamp = testStamps[0]
+            return supertest()
+                .get(`stampbook/${targetId}`)
+                .return(200, [expectedStamp])
+        })
+    })
 }) 

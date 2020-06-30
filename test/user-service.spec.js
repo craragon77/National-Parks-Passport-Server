@@ -51,4 +51,5 @@ describe(`Users service object`, function() {
                 })
         })
     })
+    
 })

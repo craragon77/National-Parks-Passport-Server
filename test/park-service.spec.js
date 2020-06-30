@@ -11,6 +11,7 @@ describe(`Articles service object`, function() {
             client: 'pg',
             connection: process.env.TEST_DB_URL
         })
+        app.set('db', db)
     })
 
     before('cleanup', () => db('parks').truncate())    
@@ -36,11 +37,12 @@ describe(`Articles service object`, function() {
     describe.only('getParkbyFullName', () => {
             it(`fetches a single park based on an input name`, () => {
             let targetFullname = 'Park-1'
-            let expectedName = testParks[0].fullname
+            let expectedName = testParks[0]
+            console.log(expectedName)
             return supertest(app)
                 .get(`/parks/name/${targetFullname}`)
-                .expect(200, expectedName)
+                .expect(200, [expectedName])
         })
-        
     })
+
 })
