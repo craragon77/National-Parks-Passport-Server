@@ -31,7 +31,7 @@ describe('Stampbook Service file', function(){
                 })
         })
     })
-    describe('Get stamp by id', () => {
+    describe.only('Get stamp by id', () => {
         it('fetches a stamp based on the id', () => {
             let targetId = 1
             let expectedStamp = testStamps[0]
