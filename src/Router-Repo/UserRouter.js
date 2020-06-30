@@ -16,6 +16,20 @@ UserRouter
         })
         .catch(next)
     })
+    .post(jsonParser, (req, res, next) => {
+        const {username, password, nickname} = req.body
+        const newUser = {username, password, nickname}
+        const knexInstance = req.app.get('db')
+        UserService.postNewUser(knexInstance, newUser)
+            .then(user => {
+                res
+                .status(201)
+                .send(newUser)
+                .location(`/users/id/${newUser}`)
+                .json(user)
+            })
+            .catch(next)
+    })
 
 UserRouter
     .route('/id/:id')
