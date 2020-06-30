@@ -38,7 +38,10 @@ describe('BucketListService endpoint', function() {
     describe.only('GET /bucketlist',() => {
         it('resolves all the bucket list items', () => {
             return BucketListService.getAllBucketList(db)
-                .expect(200, testBucketList)
+            .then(() => {
+                expect(200, testBucketList)
+            })
+                
         })
     })
 })

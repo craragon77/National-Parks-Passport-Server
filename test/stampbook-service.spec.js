@@ -42,7 +42,9 @@ describe('Stampbook Service file', function(){
     describe('Get all stamps', () => {
         it('fetches all of the stamps', () => {
             return StampbookService.getAllStamps(db)
-                .expect(200, testStamps)
+                .then(() => {
+                    expect(200, testStamps)
+                })
         })
     })
 }) 

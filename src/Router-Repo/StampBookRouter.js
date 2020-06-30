@@ -15,6 +15,18 @@ StampBookRouter
         })
         .catch(next)
     })
+    .post(jsonParser, (req, res, next) => {
+        const {user_id, park_id, stamp_date, comments} = req.body
+        const newStamp = {user_id, park_id, stamp_date, comments}
+        const knexInstance = req.app.get('db');
+        StampBookService.postNewStamp(knexInstance, newStamp)
+            .then(stamp => {
+                res
+                .status(201)
+                .location(`/stampbook/${stamp_id}`)
+                .json(stamp)
+            })
+    })
 
 StampBookRouter
     .route('/id/:stampId')
@@ -29,5 +41,6 @@ StampBookRouter
         })
         .catch(next)
     })
+    .delete()
 
 module.exports = StampBookRouter
