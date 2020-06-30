@@ -20,7 +20,7 @@ const BucketListService = {
     },
     deleteBucketList(knex, bucketlist_id){
         return knex('bucketlist')
-        .where({bucketlist_id})
+        .where('bucketlist_id', bucketlist_id)
         .delete()
     },
     updateBucketList(knex, bucketlist_id, newContent){

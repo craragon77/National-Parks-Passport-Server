@@ -41,5 +41,19 @@ BucketListRouter
             })
             .catch(next)
     })
+    .delete(jsonParser, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        console.log(req.params.bucketlistId)
+        BucketListService.deleteBucketList(
+            knexInstance, req.params.bucketlistId
+        )
+        .then(() => {
+            res
+            .status(204)
+            .end()
+
+        })
+        .catch(next)
+    })
 
 module.exports = BucketListRouter

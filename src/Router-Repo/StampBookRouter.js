@@ -42,6 +42,16 @@ StampBookRouter
         })
         .catch(next)
     })
-    .delete()
+    .delete(jsonParser, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        StampBookService.deleteStamp(knexInstance, req.params.stampId)
+            .then(() => {
+                res
+                .status(204)
+                .send('stamp successfully deleted!')
+                .end()
+            })
+            .catch(next)
+    })
 
 module.exports = StampBookRouter
