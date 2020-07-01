@@ -43,7 +43,7 @@ describe('Stampbook Service file', function(){
         })
     })
     describe('/POST stampbook endpoints', () => {
-        it('posts a new stamp to the stampbook backend', () => {
+        it.only('posts a new stamp to the stampbook backend', () => {
             let newStamp = {
                 stamp_id: 420,
                 user_id: 1,
@@ -54,6 +54,7 @@ describe('Stampbook Service file', function(){
             return supertest(app)
                 .post('/stampbook')
                 .send(newStamp)
+                .expect(201)
                 .expect(201)
         })
         describe(`Stampbook POST validation #ChecksIfThingsAreMissing`, () => {
@@ -93,6 +94,20 @@ describe('Stampbook Service file', function(){
                     error: {message: `Please double check that you are using a proper 'stamp_date'`}
                 })
             })
+        })
+    })
+    describe(`stampbook DELETE endpoint`, () => {
+        it('responds with 204 and removes a stamp', () => {
+            const stamp_idToRemove = 1
+            const expectedStamp = testStamps.filter(stamp => stamp.id !== stamp_idToRemove)
+            return supertest(app)
+                .delete(`/stampbook/id/${stamp_idToRemove}`)
+                .expect(204)
+                .then(res => {
+                    supertest(app)
+                        .get(`/stampbook`)
+                        .expect(expectedStamp)
+                })
         })
     })
 })

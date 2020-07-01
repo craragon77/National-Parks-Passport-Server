@@ -44,5 +44,4 @@ describe(`Articles service object`, function() {
                 .expect(200, [expectedName])
         })
     })
-
 })

@@ -54,7 +54,7 @@ describe('BucketListService endpoint', function() {
                 .send(newBucketList)
                 .expect(201)
         })
-        describe.only(`Bucketlist POST validation checks`, () => {
+        describe(`Bucketlist POST validation checks`, () => {
             it(`returns 400 + error if the 'user_id' is missing`, () => {
                 return supertest(app)
                     .post('/bucketlist')
@@ -77,6 +77,20 @@ describe('BucketListService endpoint', function() {
                         error: {message: `Please doublecheck that you have entered a valid 'park_id'`}
                     })
             })
+        })
+    })
+    describe.only('Bucketlist Delete endpoint', () => {
+        it('deletes the damn delete thingy', () => {
+            const idToRemove = 2
+            const expectedBucketlist = testBucketList.filter(bucket => bucket.id !== idToRemove)
+            return supertest(app)
+                .delete(`/bucketlist/id/${idToRemove}`)
+                .expect(204)
+                .then(res => {
+                    supertest(app)
+                    .get('/bucketlist')
+                    .expect(expectedBucketlist)
+                })
         })
     })
     
