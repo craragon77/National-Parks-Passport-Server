@@ -16,8 +16,8 @@ StampBookRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {user_id, park_id, stamp_date, comments} = req.body
-        const newStamp = {user_id, park_id, stamp_date, comments}
+        const {stamp_id, user_id, park_id, stamp_date, comments} = req.body
+        const newStamp = {stamp_id, user_id, park_id, stamp_date, comments}
         const knexInstance = req.app.get('db');
 
         if(!user_id){
@@ -39,10 +39,11 @@ StampBookRouter
             .then(stamp => {
                 res
                 .status(201)
-                .send(stamp)
+                //.send(stamp)
                 .location(`/stampbook/${stamp_id}`)
                 .json(stamp)
             })
+            .catch(next)
     })
 
 StampBookRouter

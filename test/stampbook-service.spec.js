@@ -55,8 +55,8 @@ describe('Stampbook Service file', function(){
                 .post('/stampbook')
                 .send(newStamp)
                 .expect(201)
-                .expect(201)
-        })
+        }) 
+        
         describe(`Stampbook POST validation #ChecksIfThingsAreMissing`, () => {
             it(`responds with 400 + error message if 'user_id' is missing`, () => {
                 return supertest(app)
@@ -95,8 +95,7 @@ describe('Stampbook Service file', function(){
                 })
             })
         })
-    })
-    describe(`stampbook DELETE endpoint`, () => {
+        describe(`stampbook DELETE endpoint`, () => {
         it('responds with 204 and removes a stamp', () => {
             const stamp_idToRemove = 1
             const expectedStamp = testStamps.filter(stamp => stamp.id !== stamp_idToRemove)
@@ -108,6 +107,7 @@ describe('Stampbook Service file', function(){
                         .get(`/stampbook`)
                         .expect(expectedStamp)
                 })
+            })
         })
     })
 })

@@ -12,7 +12,7 @@ const UserService = {
         return knex()
         .insert(newUser)
         .into('users')
-        .returning()
+        .returning('*')
         .then((row) => {
             return row[0]
         })

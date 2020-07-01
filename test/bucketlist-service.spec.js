@@ -16,7 +16,7 @@ describe('BucketListService endpoint', function() {
 
     before('cleanup', () => db('bucketlist').truncate())
 
-    before(() => {
+    beforeEach(() => {
         return db
             .into('bucketlist')
             .insert(testBucketList)
@@ -25,6 +25,7 @@ describe('BucketListService endpoint', function() {
     after(() => db.destroy())
 
     afterEach(() => db('bucketlist').truncate)
+
     describe('GET /bucketlist',() => {
         it('resolves all the bucket list items', () => {
             return BucketListService.getAllBucketList(db)
@@ -43,11 +44,11 @@ describe('BucketListService endpoint', function() {
         })
     })
     describe('POST bucketlist endpoints', () => {
-        it('posts a new bucketlist item', () => {
+        it.only('posts a new bucketlist item', () => {
             let newBucketList = {
-                bucketlist_id: 420,
-                user_id: 69,
-                park_id: 711
+                bucketlist_id: 1,
+                user_id: 1,
+                park_id: 1
             }
             return supertest(app)
                 .post('/bucketlist')
@@ -79,14 +80,14 @@ describe('BucketListService endpoint', function() {
             })
         })
     })
-    describe.only('Bucketlist Delete endpoint', () => {
+    describe('Bucketlist Delete endpoint', () => {
         it('deletes the damn delete thingy', () => {
             const idToRemove = 2
             const expectedBucketlist = testBucketList.filter(bucket => bucket.id !== idToRemove)
             return supertest(app)
                 .delete(`/bucketlist/id/${idToRemove}`)
                 .expect(204)
-                .then(res => {
+                .then(() => {
                     supertest(app)
                     .get('/bucketlist')
                     .expect(expectedBucketlist)
