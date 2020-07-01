@@ -17,8 +17,8 @@ UserRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {username, password, nickname} = req.body
-        const newUser = {username, password, nickname}
+        const {id, username, password, nickname} = req.body
+        const newUser = {id, username, password, nickname}
         const knexInstance = req.app.get('db')
 
         if(!username){

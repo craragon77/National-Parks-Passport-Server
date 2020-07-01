@@ -41,7 +41,6 @@ describe(`Users service object`, function() {
         })
     })
     describe('Posting endpoint', () => {
-        //idk why this is giving me a 500 error
         it('posts something and returns a 201 server response', () => {
             let newPost = {
                 id: '69',
@@ -53,6 +52,9 @@ describe(`Users service object`, function() {
                 .post(`/users`)
                 .send(newPost)
                 .expect(201)
+                .then(res => {
+                    console.log(res)
+                })
         })
         describe('User Post Validations #ChecksIfThingsAreMissing', () => {
             it(`responds with 400 + error message when a 'username' is missing`, () => {

@@ -43,7 +43,7 @@ describe('Stampbook Service file', function(){
         })
     })
     describe('/POST stampbook endpoints', () => {
-        it.only('posts a new stamp to the stampbook backend', () => {
+        it('posts a new stamp to the stampbook backend', () => {
             let newStamp = {
                 stamp_id: 420,
                 user_id: 1,

@@ -16,8 +16,8 @@ BucketListRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {user_id, park_id} = req.body
-        const newBucketList = {user_id, park_id}
+        const {bucketlist_id, user_id, park_id} = req.body
+        const newBucketList = {bucketlist_id, user_id, park_id}
         const knexInstance = req.app.get('db')
 
         if(!user_id){

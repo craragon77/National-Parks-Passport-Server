@@ -24,7 +24,7 @@ describe('BucketListService endpoint', function() {
 
     after(() => db.destroy())
 
-    afterEach(() => db('bucketlist').truncate)
+    afterEach(() => db('bucketlist').truncate())
 
     describe('GET /bucketlist',() => {
         it('resolves all the bucket list items', () => {
@@ -44,11 +44,11 @@ describe('BucketListService endpoint', function() {
         })
     })
     describe('POST bucketlist endpoints', () => {
-        it.only('posts a new bucketlist item', () => {
+        it('posts a new bucketlist item', () => {
             let newBucketList = {
-                bucketlist_id: 1,
-                user_id: 1,
-                park_id: 1
+                bucketlist_id: 5,
+                user_id: 5,
+                park_id: 5
             }
             return supertest(app)
                 .post('/bucketlist')
