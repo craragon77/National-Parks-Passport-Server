@@ -54,5 +54,43 @@ describe(`Users service object`, function() {
                 .send(newPost)
                 .expect(201)
         })
+        describe('User Post Validations #ChecksIfThingsAreMissing', () => {
+            it(`responds with 400 + error message when a 'username' is missing`, () => {
+                return supertest(app)
+                    .post('/users')
+                    .send({
+                        id: 69,
+                        password: 'new password',
+                        nickname: 'new nickname'
+                    })
+                    .expect(400, {
+                        error: {message: 'Please double check to ensure that you have input a valid username!'}
+                    })
+            })
+            it(`responds with 400 + error when a 'password is missing`, () => {
+                return supertest(app)
+                    .post('/users')
+                    .send({
+                        id: 69,
+                        username: 'new username',
+                        nickname: 'new nickname'
+                    })
+                    .expect(400, {
+                        error: {message: 'Please double check to ensure that you have input a valid password!'}
+                    })
+            })
+            it(`responds with 400 + error when a 'nickname' is missing`, () => {
+                return supertest(app)
+                    .post('/users')
+                    .send({
+                        id: 69,
+                        username: 'new username',
+                        password: 'new password'
+                    })
+                    .expect(400, {
+                        error: {message: 'Please double check to ensure that you have input a valid nickname!'}
+                    })
+            })
+        })
     })
 })

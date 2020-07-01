@@ -42,7 +42,7 @@ describe('BucketListService endpoint', function() {
                 .expect(200, expectedResult)
         })
     })
-    describe.only('POST bucketlist endpoints', () => {
+    describe('POST bucketlist endpoints', () => {
         it('posts a new bucketlist item', () => {
             let newBucketList = {
                 bucketlist_id: 420,
@@ -53,6 +53,30 @@ describe('BucketListService endpoint', function() {
                 .post('/bucketlist')
                 .send(newBucketList)
                 .expect(201)
+        })
+        describe.only(`Bucketlist POST validation checks`, () => {
+            it(`returns 400 + error if the 'user_id' is missing`, () => {
+                return supertest(app)
+                    .post('/bucketlist')
+                    .send({
+                        bucketlist_id: 123,
+                        park_id: 456
+                    })
+                    .expect(400, {
+                        error: {message: `Please doublecheck that you have entered a valid 'user_id'`}
+                    })
+            })
+            it(`returns 400 + error if the 'park_id' is missing`, () => {
+                return supertest(app)
+                    .post('/bucketlist')
+                    .send({
+                        bucketlist_id: 123,
+                        user_id: 456
+                    })
+                    .expect(400, {
+                        error: {message: `Please doublecheck that you have entered a valid 'park_id'`}
+                    })
+            })
         })
     })
     

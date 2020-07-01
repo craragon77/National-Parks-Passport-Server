@@ -19,6 +19,22 @@ StampBookRouter
         const {user_id, park_id, stamp_date, comments} = req.body
         const newStamp = {user_id, park_id, stamp_date, comments}
         const knexInstance = req.app.get('db');
+
+        if(!user_id){
+            res.status(400).send( {
+                error: {message: `Please double check that you are using a proper 'user-id'`}
+            })
+        }
+        if(!park_id){
+            res.status(400).send({
+                error: {message: `Please double check that you are using a proper 'park-id'`}
+            })
+        }
+        if(!stamp_date){
+            res.status(400).send({
+                error: {message: `Please double check that you are using a proper 'stamp_date'`}
+            })
+        }
         StampBookService.postNewStamp(knexInstance, newStamp)
             .then(stamp => {
                 res
@@ -52,6 +68,19 @@ StampBookRouter
                 .end()
             })
             .catch(next)
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        const {user_id, park_id, stamp_date, comments} = req.body
+        const stampContent = {user_id, park_id, stamp_date, comments}
+        const stamp_id = req.params.stampId
+        StampBookService.updateStamp(knexInstance, stamp_id, stampContent)
+            .then(() => {
+                res
+                .status(204)
+                .send(stamp_id, stampContent)
+                .end()
+            })
     })
 
 module.exports = StampBookRouter

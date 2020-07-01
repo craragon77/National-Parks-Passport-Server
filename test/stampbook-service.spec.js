@@ -24,7 +24,7 @@ describe('Stampbook Service file', function(){
 
     after(() => db('stampbook'))
 
-    after('cleanup', () => db('stampbook').truncate())
+    afterEach('cleanup', () => db('stampbook').truncate())
 
     describe('/GET stampbook endpoint', () => {
         it('fetches all of the stamps', () => {
@@ -55,6 +55,44 @@ describe('Stampbook Service file', function(){
                 .post('/stampbook')
                 .send(newStamp)
                 .expect(201)
+        })
+        describe(`Stampbook POST validation #ChecksIfThingsAreMissing`, () => {
+            it(`responds with 400 + error message if 'user_id' is missing`, () => {
+                return supertest(app)
+                    .post('/stampbook')
+                    .send({
+                        stamp_id: 666,
+                        park_id: 3,
+                        stamp_date: '2020-06-28 14:06:33'
+                    })
+                    .expect(400,{
+                        error: {message: `Please double check that you are using a proper 'user-id'`}
+                    })
+            })
+            it(`responds with 400 + error message if 'park_id' is missing`, () => {
+                return supertest(app)
+                    .post('/stampbook')
+                    .send({
+                        stamp_id: 666,
+                        user_id: 3,
+                        stamp_date: '2020-06-28 14:06:33'
+                    })
+                    .expect(400,{
+                        error: {message: `Please double check that you are using a proper 'park-id'`}
+                    })
+            })
+            it(`responds with 400 + error message if 'stamp_date' is missing`, () => {
+                return supertest(app)
+                .post('/stampbook')
+                .send({
+                    stamp_id: 999,
+                    user_id: 1,
+                    park_id: 1
+                })
+                .expect(400, {
+                    error: {message: `Please double check that you are using a proper 'stamp_date'`}
+                })
+            })
         })
     })
 })

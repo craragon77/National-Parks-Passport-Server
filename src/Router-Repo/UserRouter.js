@@ -20,6 +20,22 @@ UserRouter
         const {username, password, nickname} = req.body
         const newUser = {username, password, nickname}
         const knexInstance = req.app.get('db')
+
+        if(!username){
+            return res.status(400).json({
+                error: {message: 'Please double check to ensure that you have input a valid username!'}
+            })
+        }
+        if(!password){
+            return res.status(400).json({
+                error: {message: 'Please double check to ensure that you have input a valid password!'}
+            })
+        }
+        if(!nickname){
+            return res.status(400).json({
+                error: {message: 'Please double check to ensure that you have input a valid nickname!'}
+            })
+        }
         UserService.postNewUser(knexInstance, newUser)
             .then(user => {
                 res
