@@ -16,7 +16,7 @@ describe(`Articles service object`, function() {
 
     before('cleanup', () => db('parks').truncate())    
 
-    before(() => {
+    beforeEach(() => {
         return db
             .into('parks')
             .insert(testParks)
@@ -34,7 +34,7 @@ describe(`Articles service object`, function() {
             })
         })
     })
-    describe.only('getParkbyFullName', () => {
+    describe('getParkbyFullName', () => {
             it(`fetches a single park based on an input name`, () => {
             let targetFullname = 'Park-1'
             let expectedName = testParks[0]

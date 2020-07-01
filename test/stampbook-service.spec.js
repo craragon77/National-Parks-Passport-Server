@@ -1,14 +1,17 @@
 const StampbookService = require('../src/Service-Repo/StampBookService');
-const knex = require('knex')
+const knex = require('knex');
+const {makeStampsArray} = require('./stamp.fixtures');
+const app = require('../src/app');
 
 describe('Stampbook Service file', function(){
     let db
-
+    const testStamps = makeStampsArray()
     before(() => {
         db = knex({
             client: 'pg',
             connection: process.env.TEST_DB_URL
         })
+        app.set('db', db)
     })
     
     before('cleanup',() => db('stampbook'))
@@ -31,13 +34,15 @@ describe('Stampbook Service file', function(){
                 })
         })
     })
-    describe.only('Get stamp by id', () => {
+    describe('Get stamp by id', () => {
+        //this file is not going well :(
         it('fetches a stamp based on the id', () => {
             let targetId = 1
-            let expectedStamp = testStamps[0]
-            return supertest()
-                .get(`stampbook/${targetId}`)
-                .return(200, [expectedStamp])
+            let expectedStamp = testStamps[targetId - 1]
+            console.log(expectedStamp)
+            return supertest(app)
+                .get(`/stampbook/id/${targetId}`)
+                .expect(200, expectedStamp)
         })
     })
 }) 
