@@ -25,16 +25,13 @@ describe(`Users service object`, function() {
     afterEach(() => db('users').truncate())
     after(() => db.destroy())
 
-
-    describe('getAllUsers', () => {
+    describe('GET endpoints', () => {
         it(`fetches all users from the users table`, () =>{
             return UserService.getAllUsers(db)
                 .then(() => {
                     expect(200, testUsers)
                 })
         })
-    })
-    describe('getUserFromId', () => {
         it('fetches a specific user from the id', () => {
             let targetStampId = 1
             let expectedUser = testUsers[0]
@@ -43,5 +40,19 @@ describe(`Users service object`, function() {
                 .expect(200, expectedUser)
         })
     })
-    
+    describe('Posting endpoint', () => {
+        //idk why this is giving me a 500 error
+        it('posts something and returns a 201 server response', () => {
+            let newPost = {
+                id: '69',
+                username: 'new username',
+                password: 'new password',
+                nickname: 'new nickname',
+            }
+            return supertest(app)
+                .post(`/users`)
+                .send(newPost)
+                .expect(201)
+        })
+    })
 })

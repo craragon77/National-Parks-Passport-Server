@@ -33,8 +33,6 @@ describe('BucketListService endpoint', function() {
             })
                 
         })
-    })
-    describe('Get Bucketlist by Id', () => {
         it('gets a bucketlsit item by the id', () => {
             let testId = 1
             let expectedResult = testBucketList[0]
@@ -44,4 +42,18 @@ describe('BucketListService endpoint', function() {
                 .expect(200, expectedResult)
         })
     })
+    describe.only('POST bucketlist endpoints', () => {
+        it('posts a new bucketlist item', () => {
+            let newBucketList = {
+                bucketlist_id: 420,
+                user_id: 69,
+                park_id: 711
+            }
+            return supertest(app)
+                .post('/bucketlist')
+                .send(newBucketList)
+                .expect(201)
+        })
+    })
+    
 })

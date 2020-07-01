@@ -16,7 +16,7 @@ describe('Stampbook Service file', function(){
     
     before('cleanup',() => db('stampbook'))
 
-    before(() => {
+    beforeEach(() => {
         return db
         .into('stampbook')
         .insert(testStamps)
@@ -26,16 +26,13 @@ describe('Stampbook Service file', function(){
 
     after('cleanup', () => db('stampbook').truncate())
 
-    describe('Get all stamps', () => {
+    describe('/GET stampbook endpoint', () => {
         it('fetches all of the stamps', () => {
             return StampbookService.getAllStamps(db)
                 .then(() => {
                     expect(200, testStamps)
                 })
         })
-    })
-    describe('Get stamp by id', () => {
-        //this file is not going well :(
         it('fetches a stamp based on the id', () => {
             let targetId = 1
             let expectedStamp = testStamps[targetId - 1]
@@ -45,4 +42,19 @@ describe('Stampbook Service file', function(){
                 .expect(200, expectedStamp)
         })
     })
-}) 
+    describe('/POST stampbook endpoints', () => {
+        it('posts a new stamp to the stampbook backend', () => {
+            let newStamp = {
+                stamp_id: 420,
+                user_id: 1,
+                park_id: 1,
+                stamp_date: '2020-07-01T11:10:33.586Z',
+                comments: 'comment'
+            }
+            return supertest(app)
+                .post('/stampbook')
+                .send(newStamp)
+                .expect(201)
+        })
+    })
+})
