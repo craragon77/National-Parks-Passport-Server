@@ -94,5 +94,36 @@ describe('BucketListService endpoint', function() {
                 })
         })
     })
-    
+    describe.only(`PATCH Bucketlist Endpoints`, () => {
+        it(`responds with 404`, ()=> {
+            const bucketlistId = 567
+            return supertest(app)
+                .patch(`/bucketlist/id/${bucketlistId}`)
+                .expect(404, {
+                    error : {
+                        message: `bucketlist item not found`
+                    }
+                })
+        })
+        it(`responds with 204 and only the expected bucketlist`, () => {
+            const idToUpdate = 2
+            const updateBucketList = {
+                user_id: 7,
+                park_id: 7
+            }
+            const expectedBucketList = {
+                ...testBucketList[idToUpdate - 1],
+                ...updateBucketList
+            }
+            return supertest(app)
+                .patch(`/bucketlist/id/${idToUpdate}`)
+                .send({...updateBucketList})
+                .expect(204)
+                .then(res => {
+                    supertest(app)
+                        .get(`/bucketlist/id/${idToUpdate}`)
+                        .expect(expectedBucketList)
+                })
+        })
+    })
 })

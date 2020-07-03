@@ -95,7 +95,8 @@ describe('Stampbook Service file', function(){
                 })
             })
         })
-        describe(`stampbook DELETE endpoint`, () => {
+    })
+    describe(`stampbook DELETE endpoint`, () => {
         it('responds with 204 and removes a stamp', () => {
             const stamp_idToRemove = 1
             const expectedStamp = testStamps.filter(stamp => stamp.id !== stamp_idToRemove)
@@ -108,6 +109,38 @@ describe('Stampbook Service file', function(){
                         .expect(expectedStamp)
                 })
             })
+    })
+    describe.only(`stampbook PATCH endpoint`, () => {
+        it('responds with a 404 if nothing is found', () => {
+            const stampId = 123
+            return supertest(app)
+                .patch(`/stampbook/id/${stampId}`)
+                .expect(404, {error: {message: `Request must include all necessary parameters. Please double check you have chosen a park, date, and comments to change`}})
         })
+        it(`responds with 204 and updates the stamp`, () => {
+            const stampToUpdate = 7
+            const updateStamp = {
+                user_id: 7,
+                park_id: 7,
+                stamp_date: "1997-01-01T00:00:00.000Z",
+                comments: 'this is a test comment'
+            }
+            const expectedResponse = {
+                ...testStamps[stampToUpdate - 1],
+                ...updateStamp
+            }
+            return supertest(app)
+                .patch(`stampbook/id/${stampToUpdate}`)
+                .send({
+                    ...updateStamp
+                })
+                .expect(204)
+                .then(() => {
+                    supertest(app)
+                        .get(`/stampbook/id/${stampToUpdate}`)
+                        .expect(expectedResponse)
+                })
+        })
+         
     })
 })
