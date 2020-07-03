@@ -62,9 +62,31 @@ BucketListRouter
             res
             .status(204)
             .end()
-
         })
         .catch(next)
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const {bucketlistId, user_id, park_id} = req.body
+        const bucketlistToUpdate = {user_id, park_id}
+        const knexInstance = req.app.get('db')
+        const bucketlist_id = {bucketlistId}
+        console.log(bucketlistToUpdate)
+        console.log(bucketlist_id)
+        
+        const bucketlistChecker = Object.values(bucketlistToUpdate).filter(Boolean).length
+        if(bucketlistChecker === 0){
+            return res.status(404).json({
+                error: {
+                    message: `bucketlist item not found`
+                }
+            })
+        }
+
+        BucketListService.updateBucketList(knexInstance, bucketlist_id , bucketlistToUpdate)
+            .then(() => {
+                res.status(204).end()
+            })
+            .catch(next)
     })
 
 module.exports = BucketListRouter

@@ -74,14 +74,19 @@ StampBookRouter
         const knexInstance = req.app.get('db')
         const {user_id, park_id, stamp_date, comments} = req.body
         const stampContent = {user_id, park_id, stamp_date, comments}
-        const stamp_id = req.params.stampId
-        StampBookService.updateStamp(knexInstance, stamp_id, stampContent)
+        const patchParamsCheck = Object.values(stampContent).filter(Boolean).length
+            if (patchParamsCheck === 0)
+                return res.status(404).json({
+                    error:{
+                        message: `Request must include all necessary parameters. Please double check you have chosen a park, date, and comments to change`
+                    }
+                })
+
+        StampBookService.updateStamp(knexInstance, req.body.stampId , stampContent)
             .then(() => {
-                res
-                .status(204)
-                .send(stamp_id, stampContent)
-                .end()
+                res.status(204).end()
             })
+            .catch(next)
     })
 
 module.exports = StampBookRouter
