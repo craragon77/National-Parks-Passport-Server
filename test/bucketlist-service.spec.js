@@ -94,7 +94,7 @@ describe('BucketListService endpoint', function() {
                 })
         })
     })
-    describe.only(`PATCH Bucketlist Endpoints`, () => {
+    describe(`PATCH Bucketlist Endpoints`, () => {
         it(`responds with 404`, ()=> {
             const bucketlistId = 567
             return supertest(app)

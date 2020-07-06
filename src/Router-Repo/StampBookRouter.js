@@ -74,6 +74,9 @@ StampBookRouter
         const knexInstance = req.app.get('db')
         const {user_id, park_id, stamp_date, comments} = req.body
         const stampContent = {user_id, park_id, stamp_date, comments}
+        console.log(stampContent)
+        console.log(req.params.stampId)
+        console.log(req.body)
         const patchParamsCheck = Object.values(stampContent).filter(Boolean).length
             if (patchParamsCheck === 0)
                 return res.status(404).json({
@@ -82,7 +85,7 @@ StampBookRouter
                     }
                 })
 
-        StampBookService.updateStamp(knexInstance, req.body.stampId , stampContent)
+        StampBookService.updateStamp(knexInstance, req.params.stampId , stampContent)
             .then(() => {
                 res.status(204).end()
             })

@@ -110,7 +110,7 @@ describe('Stampbook Service file', function(){
                 })
             })
     })
-    describe.only(`stampbook PATCH endpoint`, () => {
+    describe(`stampbook PATCH endpoint`, () => {
         it('responds with a 404 if nothing is found', () => {
             const stampId = 123
             return supertest(app)
@@ -130,7 +130,7 @@ describe('Stampbook Service file', function(){
                 ...updateStamp
             }
             return supertest(app)
-                .patch(`stampbook/id/${stampToUpdate}`)
+                .patch(`/stampbook/id/${stampToUpdate}`)
                 .send({
                     ...updateStamp
                 })

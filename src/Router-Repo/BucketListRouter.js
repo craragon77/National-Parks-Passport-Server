@@ -83,7 +83,7 @@ BucketListRouter
             })
         }
 
-        BucketListService.updateBucketList(knexInstance, req.params.bucketlistId , req.body)
+        BucketListService.updateBucketList(knexInstance, req.params.bucketlistId , bucketlistToUpdate)
             .then(() => {
                 res.status(204).end()
             })
