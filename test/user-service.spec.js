@@ -36,7 +36,7 @@ describe(`Users service object`, function() {
             let targetStampId = 1
             let expectedUser = testUsers[0]
             return supertest(app)
-                .get(`/users/id/${targetStampId}`)
+                .get(`/api/users/id/${targetStampId}`)
                 .expect(200, expectedUser)
         })
     })
@@ -49,7 +49,7 @@ describe(`Users service object`, function() {
                 nickname: 'new nickname',
             }
             return supertest(app)
-                .post(`/users`)
+                .post(`/api/users`)
                 .send(newPost)
                 .expect(201)
                 .then(res => {
@@ -59,7 +59,7 @@ describe(`Users service object`, function() {
         describe('User Post Validations #ChecksIfThingsAreMissing', () => {
             it(`responds with 400 + error message when a 'username' is missing`, () => {
                 return supertest(app)
-                    .post('/users')
+                    .post('/api/users')
                     .send({
                         id: 69,
                         password: 'new password',
@@ -71,7 +71,7 @@ describe(`Users service object`, function() {
             })
             it(`responds with 400 + error when a 'password is missing`, () => {
                 return supertest(app)
-                    .post('/users')
+                    .post('/api/users')
                     .send({
                         id: 69,
                         username: 'new username',
@@ -83,7 +83,7 @@ describe(`Users service object`, function() {
             })
             it(`responds with 400 + error when a 'nickname' is missing`, () => {
                 return supertest(app)
-                    .post('/users')
+                    .post('/api/users')
                     .send({
                         id: 69,
                         username: 'new username',

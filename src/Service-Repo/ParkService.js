@@ -4,7 +4,7 @@ const ParkService = {
     },
     getParkByFullName(knex, fullname){
         return knex
-        .select('*')
+        .select()
         .table('parks')
         .where('fullname', 'ilike', `%${fullname}%`)
     },

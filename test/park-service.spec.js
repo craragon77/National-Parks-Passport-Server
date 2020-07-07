@@ -40,7 +40,7 @@ describe(`Articles service object`, function() {
             let expectedName = testParks[0]
             console.log(expectedName)
             return supertest(app)
-                .get(`/parks/name/${targetFullname}`)
+                .get(`/api/parks/name/${targetFullname}`)
                 .expect(200, [expectedName])
         })
     })

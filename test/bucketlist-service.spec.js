@@ -39,7 +39,7 @@ describe('BucketListService endpoint', function() {
             let expectedResult = testBucketList[0]
             console.log(expectedResult)
             return supertest(app)
-                .get(`/bucketlist/id/${testId}`)
+                .get(`/api/bucketlist/id/${testId}`)
                 .expect(200, expectedResult)
         })
     })
@@ -51,14 +51,14 @@ describe('BucketListService endpoint', function() {
                 park_id: 5
             }
             return supertest(app)
-                .post('/bucketlist')
+                .post('/api/bucketlist')
                 .send(newBucketList)
                 .expect(201)
         })
         describe(`Bucketlist POST validation checks`, () => {
             it(`returns 400 + error if the 'user_id' is missing`, () => {
                 return supertest(app)
-                    .post('/bucketlist')
+                    .post('/api/bucketlist')
                     .send({
                         bucketlist_id: 123,
                         park_id: 456
@@ -69,7 +69,7 @@ describe('BucketListService endpoint', function() {
             })
             it(`returns 400 + error if the 'park_id' is missing`, () => {
                 return supertest(app)
-                    .post('/bucketlist')
+                    .post('/api/bucketlist')
                     .send({
                         bucketlist_id: 123,
                         user_id: 456
@@ -85,11 +85,11 @@ describe('BucketListService endpoint', function() {
             const idToRemove = 2
             const expectedBucketlist = testBucketList.filter(bucket => bucket.id !== idToRemove)
             return supertest(app)
-                .delete(`/bucketlist/id/${idToRemove}`)
+                .delete(`/api/bucketlist/id/${idToRemove}`)
                 .expect(204)
                 .then(() => {
                     supertest(app)
-                    .get('/bucketlist')
+                    .get('/api/bucketlist')
                     .expect(expectedBucketlist)
                 })
         })
@@ -98,7 +98,7 @@ describe('BucketListService endpoint', function() {
         it(`responds with 404`, ()=> {
             const bucketlistId = 567
             return supertest(app)
-                .patch(`/bucketlist/id/${bucketlistId}`)
+                .patch(`/api/bucketlist/id/${bucketlistId}`)
                 .expect(404, {
                     error : {
                         message: `bucketlist item not found`
@@ -116,12 +116,12 @@ describe('BucketListService endpoint', function() {
                 ...updateBucketList
             }
             return supertest(app)
-                .patch(`/bucketlist/id/${idToUpdate}`)
+                .patch(`/api/bucketlist/id/${idToUpdate}`)
                 .send({...updateBucketList})
                 .expect(204)
                 .then(res => {
                     supertest(app)
-                        .get(`/bucketlist/id/${idToUpdate}`)
+                        .get(`/api/bucketlist/id/${idToUpdate}`)
                         .expect(expectedBucketList)
                 })
         })

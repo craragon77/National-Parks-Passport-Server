@@ -34,13 +34,13 @@ app.get('/', (req,res) => {
     res.send('Hello, Dave')
 })
 
-app.use('/parks', ParkRouter)
+app.use('/api/parks', ParkRouter)
 
-app.use('/users', UserRouter)
+app.use('/api/users', UserRouter)
 
-app.use('/stampbook', StampBookRouter)
+app.use('/api/stampbook', StampBookRouter)
 
-app.use('/bucketlist', BucketListRouter)
+app.use('/api/bucketlist', BucketListRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

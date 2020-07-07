@@ -38,7 +38,7 @@ describe('Stampbook Service file', function(){
             let expectedStamp = testStamps[targetId - 1]
             console.log(expectedStamp)
             return supertest(app)
-                .get(`/stampbook/id/${targetId}`)
+                .get(`/api/stampbook/id/${targetId}`)
                 .expect(200, expectedStamp)
         })
     })
@@ -52,7 +52,7 @@ describe('Stampbook Service file', function(){
                 comments: 'comment'
             }
             return supertest(app)
-                .post('/stampbook')
+                .post('/api/stampbook')
                 .send(newStamp)
                 .expect(201)
         }) 
@@ -60,7 +60,7 @@ describe('Stampbook Service file', function(){
         describe(`Stampbook POST validation #ChecksIfThingsAreMissing`, () => {
             it(`responds with 400 + error message if 'user_id' is missing`, () => {
                 return supertest(app)
-                    .post('/stampbook')
+                    .post('/api/stampbook')
                     .send({
                         stamp_id: 666,
                         park_id: 3,
@@ -72,7 +72,7 @@ describe('Stampbook Service file', function(){
             })
             it(`responds with 400 + error message if 'park_id' is missing`, () => {
                 return supertest(app)
-                    .post('/stampbook')
+                    .post('/api/stampbook')
                     .send({
                         stamp_id: 666,
                         user_id: 3,
@@ -84,7 +84,7 @@ describe('Stampbook Service file', function(){
             })
             it(`responds with 400 + error message if 'stamp_date' is missing`, () => {
                 return supertest(app)
-                .post('/stampbook')
+                .post('/api/stampbook')
                 .send({
                     stamp_id: 999,
                     user_id: 1,
@@ -101,11 +101,11 @@ describe('Stampbook Service file', function(){
             const stamp_idToRemove = 1
             const expectedStamp = testStamps.filter(stamp => stamp.id !== stamp_idToRemove)
             return supertest(app)
-                .delete(`/stampbook/id/${stamp_idToRemove}`)
+                .delete(`/api/stampbook/id/${stamp_idToRemove}`)
                 .expect(204)
                 .then(res => {
                     supertest(app)
-                        .get(`/stampbook`)
+                        .get(`/api/stampbook`)
                         .expect(expectedStamp)
                 })
             })
@@ -114,7 +114,7 @@ describe('Stampbook Service file', function(){
         it('responds with a 404 if nothing is found', () => {
             const stampId = 123
             return supertest(app)
-                .patch(`/stampbook/id/${stampId}`)
+                .patch(`/api/stampbook/id/${stampId}`)
                 .expect(404, {error: {message: `Request must include all necessary parameters. Please double check you have chosen a park, date, and comments to change`}})
         })
         it(`responds with 204 and updates the stamp`, () => {
@@ -130,14 +130,14 @@ describe('Stampbook Service file', function(){
                 ...updateStamp
             }
             return supertest(app)
-                .patch(`/stampbook/id/${stampToUpdate}`)
+                .patch(`/api/stampbook/id/${stampToUpdate}`)
                 .send({
                     ...updateStamp
                 })
                 .expect(204)
                 .then(() => {
                     supertest(app)
-                        .get(`/stampbook/id/${stampToUpdate}`)
+                        .get(`/api/stampbook/id/${stampToUpdate}`)
                         .expect(expectedResponse)
                 })
         })
