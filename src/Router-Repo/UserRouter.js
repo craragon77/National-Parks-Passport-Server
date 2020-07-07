@@ -40,7 +40,7 @@ UserRouter
             .then(user => {
                 res
                 .status(201)
-                .send(newUser)
+                //.send(newUser)
                 .location(`/users/id/${newUser}`)
                 .json(user)
             })
