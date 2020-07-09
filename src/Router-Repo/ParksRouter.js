@@ -4,9 +4,12 @@ const ParkService = require('../Service-Repo/ParkService');
 const app = require('../app');
 const ParkRouter = express.Router();
 const jsonParser = express.json();
+const { requireAuth } = require('../middleware/basic-auth');
+
 
 ParkRouter
     .route('/')
+    .all(requireAuth)
     .get((req, res, next) => {
         ParkService.getAllParks(
             req.app.get('db')
@@ -19,6 +22,7 @@ ParkRouter
 
 ParkRouter
     .route('/name/:fullname')
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ParkService.getParkByFullName(
@@ -31,6 +35,7 @@ ParkRouter
     })
 ParkRouter
     .route('/id/:id')
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ParkService.getParkById(

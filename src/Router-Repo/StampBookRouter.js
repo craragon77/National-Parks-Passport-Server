@@ -3,9 +3,12 @@ const xss = require('xss');
 const StampBookService = require('../Service-Repo/StampBookService');
 const StampBookRouter = express.Router();
 const jsonParser = express.json();
+const { requireAuth } = require('../middleware/basic-auth');
+
 
 StampBookRouter
     .route('/')
+    .all(requireAuth)
     .get((req, res, next) => {
         StampBookService.getAllStamps(
             req.app.get('db')
@@ -48,6 +51,7 @@ StampBookRouter
 
 StampBookRouter
     .route('/id/:stampId')
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         const stamp_id = req.params.stampId

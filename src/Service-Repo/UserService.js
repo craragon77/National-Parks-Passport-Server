@@ -16,7 +16,12 @@ const UserService = {
         .then((row) => {
             return row[0]
         })
-
+    },
+    findUsers(knex, username){
+        return knex()
+        .from('users')
+        .where('username', username)
+        .first()
     }
 }
 

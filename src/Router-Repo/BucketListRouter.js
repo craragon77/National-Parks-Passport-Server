@@ -3,9 +3,11 @@ const xss = require('xss');
 const BucketListService = require('../Service-Repo/BucketListService');
 const BucketListRouter = express.Router();
 const jsonParser = express.json();
+const { requireAuth } = require('../middleware/basic-auth');
 
 BucketListRouter
     .route('/')
+    .all(requireAuth)
     .get((req, res, next) => {
         BucketListService.getAllBucketList(
             req.app.get('db')
@@ -43,6 +45,7 @@ BucketListRouter
 
 BucketListRouter
     .route('/id/:bucketlistId')
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         const bucketlist_id = req.params.bucketlistId
@@ -82,7 +85,6 @@ BucketListRouter
                 }
             })
         }
-
         BucketListService.updateBucketList(knexInstance, req.params.bucketlistId , bucketlistToUpdate)
             .then(() => {
                 res.status(204).end()
