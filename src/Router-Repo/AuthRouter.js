@@ -10,7 +10,7 @@ AuthRouter
     //.all(requireAuth)
     .post(jsonParser, (req, res, next) => {
         const {username, password} = req.body
-        const user = {username}
+        const loggingIn = {username, password}
         //const password = {password}
         const knexInstance = req.app.get('db')
 
@@ -25,7 +25,7 @@ AuthRouter
                 error: {message: 'please enter a password'}
             })
         }
-    AuthService.AuthUsers(knexInstance, user)
+    AuthService.AuthUsers(knexInstance, loggingIn)
         .then(user => {
             res
             .status(201)

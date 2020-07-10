@@ -1,7 +1,7 @@
 const AuthService = {
-    AuthUsers(knex, user){
+    AuthUsers(knex, user, password){
         return knex()
-        .insert(user)
+        .insert(user, password)
         .into('users')
         .returning()
         .then((row) => {

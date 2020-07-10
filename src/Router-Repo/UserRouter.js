@@ -20,7 +20,7 @@ UserRouter
     })
     .post(jsonParser, (req, res, next) => {
         const {username, password, nickname} = req.body
-        const newUser = {username, password, nickname}
+        const newUser = {username, password}
         console.log(newUser)
         const knexInstance = req.app.get('db')
 
