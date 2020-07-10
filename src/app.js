@@ -10,7 +10,7 @@ const knex = require('knex');
 const UserRouter = require('./Router-Repo/UserRouter');
 const StampBookRouter = require('./Router-Repo/StampBookRouter');
 const BucketListRouter = require('./Router-Repo/BucketListRouter');
-const AuthRouter = require('./Router-Repo/AuthRouter')
+const AuthRouter = require('./Router-Repo/AuthRouter');
 
 const app = express()
 
@@ -43,7 +43,7 @@ app.use('/api/stampbook', StampBookRouter)
 
 app.use('/api/bucketlist', BucketListRouter)
 
-//app.use('/api/auth/login', AuthRouter)
+app.use('/api/auth/login', AuthRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

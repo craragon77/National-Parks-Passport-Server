@@ -7,11 +7,12 @@ const {requireAuth} = require('../middleware/basic-auth')
 
 AuthRouter
     .route('/')
+    //.all(requireAuth)
     .post(jsonParser, (req, res, next) => {
         const {username, password} = req.body
         const user = {username}
         //const password = {password}
-        const knexInstance = req.body.get('db')
+        const knexInstance = req.app.get('db')
 
         if(!username){
             return res.status(400).json({
@@ -24,10 +25,12 @@ AuthRouter
                 error: {message: 'please enter a password'}
             })
         }
-    AuthService.loginUser(knexInstance, user)
+    AuthService.AuthUsers(knexInstance, user)
         .then(user => {
             res
             .status(201)
             .json(user)
         })
 })
+
+module.exports = AuthRouter
