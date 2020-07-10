@@ -7,8 +7,7 @@ const {requireAuth} = require('../middleware/basic-auth')
 
 AuthRouter
     .route('/')
-    //.all(requireAuth)
-    .post(jsonParser, (req, res, next) => {
+    .post(requireAuth, jsonParser, (req, res, next) => {
         const {username, password} = req.body
         const loggingIn = {username, password}
         //const password = {password}
