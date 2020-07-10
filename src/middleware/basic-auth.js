@@ -19,8 +19,9 @@ function requireAuth(req, res, next){
         .split(':')
 
     if(!tokenUserName || !tokenPassword){
+        console.log('the first if statement activated!')
         return res.status(401).json({
-            error: 'Unauthorized request'
+            error: 'Unauthorized request (but this is the no token username or password)'
         })
     }
 
@@ -31,8 +32,9 @@ function requireAuth(req, res, next){
         .first()
         .then(user => {
             if(!user || user.password !== tokenPassword){
+                console.log('the second if statement activated!')
                 return res.status(401).json({
-                    error: 'Unauthorized request'
+                    error: 'Unauthorized request (but this is the req.get.app one #theSecondOne)'
                 })
             }
         next()

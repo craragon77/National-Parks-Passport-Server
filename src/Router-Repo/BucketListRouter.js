@@ -7,7 +7,7 @@ const { requireAuth } = require('../middleware/basic-auth');
 
 BucketListRouter
     .route('/')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         BucketListService.getAllBucketList(
             req.app.get('db')
@@ -45,7 +45,7 @@ BucketListRouter
 
 BucketListRouter
     .route('/id/:bucketlistId')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         const bucketlist_id = req.params.bucketlistId

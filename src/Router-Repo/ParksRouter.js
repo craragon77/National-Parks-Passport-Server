@@ -9,7 +9,7 @@ const { requireAuth } = require('../middleware/basic-auth');
 
 ParkRouter
     .route('/')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         ParkService.getAllParks(
             req.app.get('db')
@@ -22,7 +22,7 @@ ParkRouter
 
 ParkRouter
     .route('/name/:fullname')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ParkService.getParkByFullName(
@@ -35,7 +35,7 @@ ParkRouter
     })
 ParkRouter
     .route('/id/:id')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ParkService.getParkById(

@@ -8,7 +8,7 @@ const { requireAuth } = require('../middleware/basic-auth');
 
 UserRouter
     .route('/')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         UserService.getAllUsers(
             req.app.get('db')
@@ -52,7 +52,7 @@ UserRouter
 
 UserRouter
     .route('/id/:id')
-    .all(requireAuth)
+    //.all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         UserService.getUserById(
@@ -66,7 +66,7 @@ UserRouter
 
 UserRouter
     .route('/account/')
-    .all(requireAuth)
+    //.all(requireAuth)
     /*.get(jsonParser, (req, res, next) => {
         const knexInstance = req.app.get('db')
         const {username, password} = req.body
@@ -91,28 +91,5 @@ UserRouter
             .catch(next)
             
     })*/
-    .post(jsonParser, (req, rex, next) => {
-        const {username} = req.body
-        const user = {username}
-        const knexInstance = req.body.get('db')
-
-        if(!username){
-            return res.status(400).json({
-                error: {messge: 'please enter a username'}
-            })
-        }
-         
-        if(!password){
-            return res.status(400).json({
-                error: {message: 'please enter a password'}
-            })
-        }
-        UserService.loginUser(knexInstance, user)
-            .then(user => {
-                res
-                .status(201)
-                .json(user)
-            })
-    })
 
 module.exports = UserRouter
