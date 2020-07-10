@@ -17,11 +17,14 @@ const UserService = {
             return row[0]
         })
     },
-    findUsers(knex, username){
+    loginUser(knex, user){
         return knex()
-        .from('users')
-        .where('username', username)
-        .first()
+        .insert(user)
+        .into('users')
+        .returning()
+        .then((row) => {
+            return row[0]
+        })
     }
 }
 
