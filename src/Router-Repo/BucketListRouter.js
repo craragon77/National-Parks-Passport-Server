@@ -7,7 +7,7 @@ const { requireAuth } = require('../middleware/basic-auth');
 
 BucketListRouter
     .route('/')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         BucketListService.getAllBucketList(
             req.app.get('db')
@@ -18,20 +18,24 @@ BucketListRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {bucketlist_id, user_id, park_id} = req.body
-        const newBucketList = {bucketlist_id, user_id, park_id}
+        //removed the user_id thingy from the req.body because I was told to
+        const {bucketlist_id, park_id} = req.body
+        const newBucketList = {bucketlist_id, park_id}
         const knexInstance = req.app.get('db')
 
-        if(!user_id){
-            return res.status(400).send({
-                error: {message: `Please doublecheck that you have entered a valid 'user_id'`}
-            })
-        }
+        //if(!user_id){
+          //  return res.status(400).send({
+            //    error: {message: `Please doublecheck that you have entered a valid 'user_id'`}
+            //})
+        //}
         if(!park_id){
             return res.status(400).send({
                 error: {message: `Please doublecheck that you have entered a valid 'park_id'`}
             })
         }
+        //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
+        newBucketList.user_id = req.user.id
+
         BucketListService.postNewBucketList(knexInstance, newBucketList)
             .then(bucket => {
                 res
@@ -45,7 +49,7 @@ BucketListRouter
 
 BucketListRouter
     .route('/id/:bucketlistId')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         const bucketlist_id = req.params.bucketlistId
@@ -69,8 +73,9 @@ BucketListRouter
         .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const {bucketlistId, user_id, park_id} = req.body
-        const bucketlistToUpdate = {user_id, park_id}
+        //removing the user_id thingy from the whatever because I was told to #narf
+        const {bucketlistId, park_id} = req.body
+        const bucketlistToUpdate = {park_id}
         const knexInstance = req.app.get('db')
         const bucketlist_id = Object.values({bucketlistId})
 
@@ -85,6 +90,10 @@ BucketListRouter
                 }
             })
         }
+
+        //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
+        bucketlistToUpdate.user_id = req.user.id
+
         BucketListService.updateBucketList(knexInstance, req.params.bucketlistId , bucketlistToUpdate)
             .then(() => {
                 res.status(204).end()

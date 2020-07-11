@@ -8,7 +8,7 @@ const { requireAuth } = require('../middleware/basic-auth');
 
 StampBookRouter
     .route('/')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         StampBookService.getAllStamps(
             req.app.get('db')
@@ -19,15 +19,16 @@ StampBookRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {stamp_id, user_id, park_id, stamp_date, comments} = req.body
-        const newStamp = {stamp_id, user_id, park_id, stamp_date, comments}
+        //user_id removed from request body as part of the protected endpoints thing-y
+        const {stamp_id, park_id, stamp_date, comments} = req.body
+        const newStamp = {stamp_id, park_id, stamp_date, comments}
         const knexInstance = req.app.get('db');
 
-        if(!user_id){
-            res.status(400).send( {
-                error: {message: `Please double check that you are using a proper 'user-id'`}
-            })
-        }
+        //if(!user_id){
+          //  res.status(400).send( {
+            //    error: {message: `Please double check that you are using a proper 'user-id'`}
+            //})
+        //}
         if(!park_id){
             res.status(400).send({
                 error: {message: `Please double check that you are using a proper 'park-id'`}
@@ -38,6 +39,8 @@ StampBookRouter
                 error: {message: `Please double check that you are using a proper 'stamp_date'`}
             })
         }
+        //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
+        newStamp.user_id = req.user.id
         StampBookService.postNewStamp(knexInstance, newStamp)
             .then(stamp => {
                 res
@@ -51,7 +54,7 @@ StampBookRouter
 
 StampBookRouter
     .route('/id/:stampId')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         const stamp_id = req.params.stampId
@@ -76,8 +79,9 @@ StampBookRouter
     })
     .patch(jsonParser, (req, res, next) => {
         const knexInstance = req.app.get('db')
-        const {user_id, park_id, stamp_date, comments} = req.body
-        const stampContent = {user_id, park_id, stamp_date, comments}
+        //removed user_id from req.body part here cause its a part of the requireAuth function thingy
+        const {park_id, stamp_date, comments} = req.body
+        const stampContent = {park_id, stamp_date, comments}
         console.log(stampContent)
         console.log(req.params.stampId)
         console.log(req.body)
@@ -88,7 +92,8 @@ StampBookRouter
                         message: `Request must include all necessary parameters. Please double check you have chosen a park, date, and comments to change`
                     }
                 })
-
+        //see comment above for why this is happening here
+        stampContent.user_id = req.user.id
         StampBookService.updateStamp(knexInstance, req.params.stampId , stampContent)
             .then(() => {
                 res.status(204).end()

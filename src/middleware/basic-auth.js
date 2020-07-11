@@ -7,7 +7,7 @@ function requireAuth(req, res, next){
     let basicToken
     if(!authToken.toLowerCase().startsWith('basic ')){
         return res.status(401).json({
-            error: 'Missing basic token'
+            error: 'Missing basic token (this is the error on line 10 or whatever)'
         })
     } else {
         basicToken = authToken.slice('basic '.length, authToken.length)
@@ -20,6 +20,7 @@ function requireAuth(req, res, next){
 
     if(!tokenUserName || !tokenPassword){
         console.log('the first if statement activated!')
+        //console.log(tokenUserName, tokenPassword)
         return res.status(401).json({
             error: 'Unauthorized request (but this is the no token username or password)'
         })
@@ -31,12 +32,14 @@ function requireAuth(req, res, next){
         })
         .first()
         .then(user => {
+            //console.log(user)
             if(!user || user.password !== tokenPassword){
                 console.log('the second if statement activated!')
                 return res.status(401).json({
                     error: 'Unauthorized request (but this is the req.get.app one #theSecondOne)'
                 })
             }
+        req.user = user
         next()
         })
         .catch(next)

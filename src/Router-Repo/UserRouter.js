@@ -8,7 +8,7 @@ const { requireAuth } = require('../middleware/basic-auth');
 
 UserRouter
     .route('/')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
         UserService.getAllUsers(
             req.app.get('db')
@@ -19,7 +19,8 @@ UserRouter
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
-        const {username, password, nickname} = req.body
+        //gonna leave the username in the request body here because this is to make a new account
+        const {username, password} = req.body
         const newUser = {username, password}
         console.log(newUser)
         const knexInstance = req.app.get('db')
@@ -32,11 +33,6 @@ UserRouter
         if(!password){
             return res.status(400).json({
                 error: {message: 'Please double check to ensure that you have input a valid password!'}
-            })
-        }
-        if(!nickname){
-            return res.status(400).json({
-                error: {message: 'Please double check to ensure that you have input a valid nickname!'}
             })
         }
         UserService.postNewUser(knexInstance, newUser)
