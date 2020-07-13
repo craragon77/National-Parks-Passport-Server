@@ -31,12 +31,7 @@ function requireAuth(req, res, next){
         })
     }
     //console.log(req.app.get('db')('users').where({username: tokenUserName}).first())
-    req.app.get('db')('users')
-        //.where({
-          //  username: tokenUserName
-        //})
-        .first()
-        
+    AuthService.getUserWithUserName(req.app.get('db'), tokenUserName)
         .then(username => {
             //console.log(user)
             if(!username){

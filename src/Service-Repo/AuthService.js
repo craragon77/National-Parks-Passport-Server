@@ -14,7 +14,7 @@ const AuthService = {
     },
     getUserWithUserName(db, username){
         return db('users')
-        .where('username', username)
+        .where({username})
         .first()
     },
     parseBasicToken(token){
