@@ -2,8 +2,8 @@ const bcrypt = require('bcryptjs');
 const AuthService = require('../Service-Repo/AuthService');
 
 function requireAuth(req, res, next){
-    //console.log('requireAuth')
-    //console.log(req.get('Authorization'))
+    console.log('requireAuth')
+    console.log(req.get('Authorization'))
 
     const authToken = req.get('Authorization') || ''
     //console.log(authToken)
@@ -48,13 +48,13 @@ function requireAuth(req, res, next){
                         error: `Unauthorized request (from the bcrypt compare thingy)`
                     })
                 }
-                req.user = user
+                req.username = username
+                res.json(`is this what you want you evil computer????`)
                 next()
             })
         
         })
         .catch(next)
-    
 }
 
 module.exports = {
