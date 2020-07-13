@@ -43,7 +43,7 @@ app.use('/api/stampbook', StampBookRouter)
 
 app.use('/api/bucketlist', BucketListRouter)
 
-app.use('/api/auth/login', AuthRouter)
+app.use('/api/auth/', AuthRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

@@ -6,6 +6,7 @@ const UserRouter = express.Router();
 const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
 
+
 UserRouter
     .route('/')
     .all(requireAuth)
