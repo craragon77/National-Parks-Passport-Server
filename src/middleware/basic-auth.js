@@ -49,7 +49,6 @@ function requireAuth(req, res, next){
                     })
                 }
                 req.username = username
-                res.json(`is this what you want you evil computer????`)
                 next()
             })
         
