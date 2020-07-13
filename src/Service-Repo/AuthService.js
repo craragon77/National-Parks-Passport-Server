@@ -24,7 +24,7 @@ const AuthService = {
             .split(':')
     },
     comparePasswords(password, hash){
-        return bcypt.compare(password, hash)
+        return bcrypt.compare(password, hash)
     },
     createJwt(subject, payload){
         return jwt.sign(payload, config.JWT_SECRET, {

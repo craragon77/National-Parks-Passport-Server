@@ -6,7 +6,7 @@ function requireAuth(req, res, next){
     console.log(req.get('Authorization'))
 
     const authToken = req.get('Authorization') || ''
-
+    console.log(authToken)
     let basicToken
     if(!authToken.toLowerCase().startsWith('basic ')){
         return res.status(401).json({
@@ -14,6 +14,7 @@ function requireAuth(req, res, next){
         })
     } else {
         basicToken = authToken.slice('basic '.length, authToken.length)
+        //console.log(basicToken)
     }
 
     const [tokenUserName, tokenPassword] = Buffer
@@ -24,28 +25,28 @@ function requireAuth(req, res, next){
         console.log(tokenUserName, tokenPassword)
     if(!tokenUserName || !tokenPassword){
         console.log('the first if statement activated!')
-        console.log(tokenUserName, tokenPassword)
+        //console.log(tokenUserName, tokenPassword)
         return res.status(401).json({
             error: 'Unauthorized request (but this is the no token username or password)'
         })
     }
-    console.log(req.app.get('db')('users').where({username: tokenUserName}).first())
+    //console.log(req.app.get('db')('users').where({username: tokenUserName}).first())
     req.app.get('db')('users')
-        .where({
-            username: tokenUserName
-        })
+        //.where({
+          //  username: tokenUserName
+        //})
         .first()
         
-        .then(user => {
-            console.log(user)
-            if(!user){
-                console.log('the second if statement activated!')
+        .then(username => {
+            //console.log(user)
+            if(!username){
+                //console.log('the second if statement activated!')
                 return res.status(401).json({
                     error: 'Unauthorized request (but this is the req.get.app one #theSecondOne)'
                 })
             }
 
-        return AuthService.comparePasswords(tokenPassword, user.password)
+        return AuthService.comparePasswords(tokenPassword, username.password)
             .then(passwordsMatch => {
                 if(!passwordsMatch){
                     return res.status(401).json({
