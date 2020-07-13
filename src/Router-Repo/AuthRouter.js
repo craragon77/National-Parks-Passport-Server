@@ -3,7 +3,7 @@ const xss = require('xss');
 const AuthService = require('../Service-Repo/AuthService');
 const AuthRouter = express.Router();
 const jsonParser = express.json();
-const {requireAuth} = require('../middleware/basic-auth')
+const {requireAuth} = require('../middleware/basic-auth');
 
 AuthRouter
     .route('/login')
