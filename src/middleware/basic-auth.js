@@ -2,11 +2,11 @@ const bcrypt = require('bcryptjs');
 const AuthService = require('../Service-Repo/AuthService');
 
 function requireAuth(req, res, next){
-    console.log('requireAuth')
-    console.log(req.get('Authorization'))
+    //console.log('requireAuth')
+    //console.log(req.get('Authorization'))
 
     const authToken = req.get('Authorization') || ''
-    console.log(authToken)
+    //console.log(authToken)
     let basicToken
     if(!authToken.toLowerCase().startsWith('basic ')){
         return res.status(401).json({
@@ -14,7 +14,7 @@ function requireAuth(req, res, next){
         })
     } else {
         basicToken = authToken.slice('basic '.length, authToken.length)
-        //console.log(basicToken)
+        console.log(basicToken)
     }
 
     const [tokenUserName, tokenPassword] = Buffer
