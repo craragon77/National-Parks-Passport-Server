@@ -39,11 +39,14 @@ AuthRouter
                                 error: 'Incorrect username or password, SON!'
                             })
                             //ok ok ok so we are here, i guess that's good
-                            const sub = dbUser.username
-                            const payload = {user_id: dbUser.id}
-                            res.json({
-                                authToken: AuthService.createJwt(sub, payload)
-                            })
+                        const sub = dbUser.username
+                        const payload = {user_id: dbUser.id}
+                        let authToken = AuthService.createJwt(sub, payload)
+                        console.log(authToken)
+                        res.send({
+                            authToken
+                        })
+                        
                     })
                     .catch(next)
             })
