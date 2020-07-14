@@ -7,6 +7,7 @@ const {requireAuth} = require('../middleware/basic-auth');
 
 AuthRouter
     .route('/login')
+    //take a mental note that the requireAuth might not be entirely necessary
     .post(requireAuth, jsonParser, (req, res, next) => {
         const {username, password} = req.body
         const loginUser = {username, password}
@@ -19,15 +20,14 @@ AuthRouter
                     error: `Missing '${key}' in request body`
                 })
             }
-            res.send('ok')
-
-        AuthService.getUserWithUserName(
-            req.app.get('db'),
-            loginUser.username
-        )
+            //ooooh this one means that it worked!
+            //res.send('ok (but this is the specific ok from the authRouter post for loop thingy)')
+            //but its the getUser function thingy that isn't working
+        AuthService.getUserWithUserName(knexInstance,loginUser.username)
             .then(dbUser => {
                 if(!dbUser){
                     return res.status(400).json({
+                        //testing this endpoint now
                         error: 'Incorrect username or password. Please try again'
                     })
                 }
@@ -37,8 +37,9 @@ AuthRouter
                             return res.status(400).json({
                                 error: 'Incorrect username or password, SON!'
                             })
-                            const sub = db.user_name
-                            const payload = {user_id: db.id}
+                            //ok ok ok so we are here, i guess that's good
+                            const sub = dbUser.username
+                            const payload = {user_id: dbUser.id}
                             res.send({
                                 authToken: AuthService.createJwt(sub, payload)
                             })
