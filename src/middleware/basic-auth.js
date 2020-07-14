@@ -48,6 +48,7 @@ function requireAuth(req, res, next){
                         error: `Unauthorized request (from the bcrypt compare thingy)`
                     })
                 }
+                //replacing req with res did not help much either unfortunately
                 req.username = username
                 next()
             })
