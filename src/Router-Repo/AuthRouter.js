@@ -2,13 +2,14 @@ const express = require('express');
 const xss = require('xss');
 const AuthService = require('../Service-Repo/AuthService');
 const AuthRouter = express.Router();
-const jsonParser = express.json();
+const jsonBodyParser = express.json();
 const {requireAuth} = require('../middleware/basic-auth');
 
 AuthRouter
     .route('/login')
     //take a mental note that the requireAuth might not be entirely necessary
-    .post(jsonParser, (req, res, next) => {
+    .post(jsonBodyParser, (req, res, next) => {
+        console.log(req.body)
         const {username, password} = req.body
         const loginUser = {username, password}
         //const password = {password}
