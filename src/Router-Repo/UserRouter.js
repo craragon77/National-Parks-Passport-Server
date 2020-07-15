@@ -62,9 +62,32 @@ UserRouter
     })
 
 UserRouter
-    .route('/account/')
-    .post((req, res, next) => {
+    .route('/newUser/')
+    .post(jsonParser, (req, res, next) => {
+        const {username, password} = req.body
+        const passwordError = UserService.validatePassword(password)
+        const knexInstance = req.app.get('db')
+        for (const field of ['username', 'password'])
+            if(!req.body[field]){
+                return res.status(400).json({
+                    error: `Missing ${field} in request body`
+                })
+            }
 
+        if(passwordError){
+            return res.status(400).json({
+                error: passwordError
+            })
+        }
+
+        UserService.hasUserWithUserName(knexInstance, username)
+            .then(hasUserWithUserName => {
+                if (hasUserWithUserName)
+                    return res.status(400).json({
+                        error: `Username already taken! Please edit your username and try again!`
+                    })
+            })
+            res.send('super duper trooper!')
     })
 
 module.exports = UserRouter
