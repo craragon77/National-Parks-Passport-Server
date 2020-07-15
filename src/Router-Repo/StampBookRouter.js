@@ -9,7 +9,7 @@ const { jwtAuth } = require('../middleware/jwt-auth');
 
 StampBookRouter
     .route('/')
-    .all(requireAuth)
+    .all(jwtAuth)
     .get((req, res, next) => {
         StampBookService.getAllStamps(
             req.app.get('db')
@@ -55,7 +55,7 @@ StampBookRouter
 
 StampBookRouter
     .route('/id/:stampId')
-    .all(requireAuth)
+    .all(jwtAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         const stamp_id = req.params.stampId

@@ -10,7 +10,7 @@ const { jwtAuth } = require('../middleware/jwt-auth');
 
 UserRouter
     .route('/')
-    .all(requireAuth)
+    .all(jwtAuth)
     .get((req, res, next) => {
         UserService.getAllUsers(
             req.app.get('db')
@@ -50,7 +50,7 @@ UserRouter
 
 UserRouter
     .route('/id/:id')
-    //.all(requireAuth)
+    .all(jwtAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         UserService.getUserById(

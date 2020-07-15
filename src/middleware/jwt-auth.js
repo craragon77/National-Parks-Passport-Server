@@ -15,7 +15,7 @@ function jwtAuth(req, res, next){
     try {
         const payload = AuthService.verfiyJwt(bearerToken)
 
-        AuthService.getUserWithUserName(req.app.get('db'), payload.sub)
+        return AuthService.getUserWithUserName(req.app.get('db'), payload.sub)
         .then(user => {
             //for some reason, this line is the source of the headers error that I am getting :(
             if (!user)
@@ -23,7 +23,7 @@ function jwtAuth(req, res, next){
                     error: 'Unauthorized request (but from the database check or whatever'
                 })
                 //but adding return here helped. Is this the fix?
-        return req.user = user
+        req.user = user
         next()
         })
         .catch(error => {

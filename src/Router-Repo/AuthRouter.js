@@ -4,6 +4,7 @@ const AuthService = require('../Service-Repo/AuthService');
 const AuthRouter = express.Router();
 const jsonParser = express.json();
 const {requireAuth} = require('../middleware/basic-auth');
+const {jwtAuth} = require('../middleware/jwt-auth');
 
 AuthRouter
     .route('/login')
@@ -41,7 +42,7 @@ AuthRouter
                             //ok ok ok so we are here, i guess that's good
                         const sub = dbUser.username
                         const payload = {user_id: dbUser.id}
-                        let authToken = AuthService.createJwt(sub, payload)
+                        let authToken = `bearer ` + AuthService.createJwt(sub, payload)
                         console.log(authToken)
                         //the problem area is here!!!!!!!!
                         res.send({
