@@ -10,8 +10,7 @@ const { jwtAuth } = require('../middleware/jwt-auth');
 
 UserRouter
     .route('/')
-    .all(jwtAuth)
-    .get((req, res, next) => {
+    .get(jwtAuth, (req, res, next) => {
         UserService.getAllUsers(
             req.app.get('db')
         )
@@ -64,30 +63,8 @@ UserRouter
 
 UserRouter
     .route('/account/')
-    //.all(requireAuth)
-    /*.get(jsonParser, (req, res, next) => {
-        const knexInstance = req.app.get('db')
-        const {username, password} = req.body
-        const submittedUsername = {username}
-        const submittedPassword = {password}
-        if(!username){
-            res.status(400).json({
-                error: {message: 'Please enter a username'}
-            })
-        }
+    .post((req, res, next) => {
 
-        if(!password){
-            res.status(400).json({
-                error: {message: 'Please enter a password'}
-            })
-        }
-
-        UserService.findUsers(knexInstance, submittedUsername)
-            .then((account) => {
-                res.status(200).json('your account was found and accessed! horray!')
-            })
-            .catch(next)
-            
-    })*/
+    })
 
 module.exports = UserRouter
