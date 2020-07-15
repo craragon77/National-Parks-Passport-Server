@@ -4,6 +4,7 @@ const StampBookService = require('../Service-Repo/StampBookService');
 const StampBookRouter = express.Router();
 const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
+const { jwtAuth } = require('../middleware/jwt-auth');
 
 
 StampBookRouter

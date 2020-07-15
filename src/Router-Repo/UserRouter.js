@@ -5,6 +5,7 @@ const app = require('../app');
 const UserRouter = express.Router();
 const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
+const { jwtAuth } = require('../middleware/jwt-auth');
 
 
 UserRouter

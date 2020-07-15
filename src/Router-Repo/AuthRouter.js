@@ -43,6 +43,7 @@ AuthRouter
                         const payload = {user_id: dbUser.id}
                         let authToken = AuthService.createJwt(sub, payload)
                         console.log(authToken)
+                        //the problem area is here!!!!!!!!
                         res.send({
                             authToken
                         })

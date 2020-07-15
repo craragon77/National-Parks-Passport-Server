@@ -5,11 +5,13 @@ const app = require('../app');
 const ParkRouter = express.Router();
 const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
+const { jwtAuth } = require('../middleware/jwt-auth');
 
 
 ParkRouter
     .route('/')
-    .all(requireAuth)
+    //why is it that when the .all() method is used, it sometimes doesn't work?
+    .all(jwtAuth)
     .get((req, res, next) => {
         ParkService.getAllParks(
             req.app.get('db')
@@ -22,7 +24,7 @@ ParkRouter
 
 ParkRouter
     .route('/name/:fullname')
-    .all(requireAuth)
+    .all(jwtAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ParkService.getParkByFullName(
@@ -35,7 +37,7 @@ ParkRouter
     })
 ParkRouter
     .route('/id/:id')
-    .all(requireAuth)
+    .all(jwtAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ParkService.getParkById(

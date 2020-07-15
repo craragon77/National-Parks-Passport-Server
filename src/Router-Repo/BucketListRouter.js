@@ -4,6 +4,7 @@ const BucketListService = require('../Service-Repo/BucketListService');
 const BucketListRouter = express.Router();
 const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
+const { jwtAuth } = require('../middleware/jwt-auth');
 
 BucketListRouter
     .route('/')
