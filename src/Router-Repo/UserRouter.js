@@ -95,18 +95,18 @@ UserRouter
                     username,
                     password: hashedPassword
                 }
-            
-            return UserService.postNewUser(knexInstance, newUser)
-                .then(user => {
-                    res
-                        .status(201)
-                        //apparently the location method thingy doesn't want to cooperate with me which is a bummer :(
-                        .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                        .json(UserService.serializedUser(user))
+                    return UserService.postNewUser(knexInstance, newUser)
+                        .then(user => {
+                            res
+                                .status(201)
+                                //apparently the location method thingy doesn't want to cooperate with me which is a bummer :(
+                                .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                                .json(UserService.serializedUser(user))
 
+                        })
+                        .catch(next)
                 })
-                .catch(next)
-            })
+            .catch(next)
     })
 
 module.exports = UserRouter
