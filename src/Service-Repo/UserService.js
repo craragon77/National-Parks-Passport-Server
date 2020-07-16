@@ -1,4 +1,5 @@
 const REGEX_CHECKER = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
+const bcrypt = require('bcryptjs');
 
 const UserService = {
     getAllUsers(knex){
@@ -30,6 +31,15 @@ const UserService = {
             return 'Password must contain 1 upper case, 1 lower case, a numer, and a special character'
         }
         return null
+    },
+    serializedUser(user){
+        return {
+            id: user.id,
+            fullname: xss(user.fullname)
+        }
+    },
+    hashPassword(password){
+        return bcrypt.hash(password, 12)
     },
     hasUserWithUserName(db, username){
         return db('users')

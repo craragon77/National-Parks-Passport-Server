@@ -6,6 +6,8 @@ const UserRouter = express.Router();
 const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
 const { jwtAuth } = require('../middleware/jwt-auth');
+const path = require('path');
+const bcrypt = require('bcryptjs')
 
 
 UserRouter
@@ -87,7 +89,24 @@ UserRouter
                         error: `Username already taken! Please edit your username and try again!`
                     })
             })
-            res.send('super duper trooper!')
+            return UserService.hashPassword(password)
+                .then(hashedPassword => {
+                    const newUser = {
+                    username,
+                    password: hashedPassword
+                }
+            
+            return UserService.postNewUser(knexInstance, newUser)
+                .then(user => {
+                    res
+                        .status(201)
+                        //apparently the location method thingy doesn't want to cooperate with me which is a bummer :(
+                        .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                        .json(UserService.serializedUser(user))
+
+                })
+                .catch(next)
+            })
     })
 
 module.exports = UserRouter
