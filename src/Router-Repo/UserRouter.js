@@ -54,8 +54,10 @@ UserRouter
     .all(jwtAuth)
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
+        //ok lets get to the bottom of this mystery. How do I decode the encrypted key
+        username.id = req.user.id
         UserService.getUserById(
-            knexInstance, req.params.id
+            knexInstance, returningUser
             )
             .then(user => {
                 res.json(user)
@@ -100,8 +102,8 @@ UserRouter
                             res
                                 .status(201)
                                 //apparently the location method thingy doesn't want to cooperate with me which is a bummer :(
-                                .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                                .json(UserService.serializedUser(user))
+                                .location(path.posix.join(req.originalUrl, `/${newUser.id}`))
+                                .json(newUser)
 
                         })
                         .catch(next)

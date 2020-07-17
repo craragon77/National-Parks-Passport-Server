@@ -17,7 +17,9 @@ const UserService = {
         .into('users')
         .returning()
         .then((row) => {
+            console.log(row[0])
             return row[0]
+            
         })
     },
     validatePassword(password){
@@ -35,7 +37,8 @@ const UserService = {
     serializedUser(user){
         return {
             id: user.id,
-            fullname: xss(user.fullname)
+            fullname: xss(user.fullname),
+            password: xss(usern.password)
         }
     },
     hashPassword(password){
