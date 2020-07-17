@@ -55,7 +55,7 @@ UserRouter
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         //ok lets get to the bottom of this mystery. How do I decode the encrypted key
-        username.id = req.user.id
+        returningUser = req.params.id
         UserService.getUserById(
             knexInstance, returningUser
             )
