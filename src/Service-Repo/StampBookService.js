@@ -27,6 +27,12 @@ const StampBookService = {
         return knex('stampbook')
         .where({stamp_id})
         .update(newContent)
+    },
+    getUserStamp(knex, user_id){
+        return knex
+        .select()
+        .from('stampbook')
+        .where('user_id', user_id)
     }
 }
 

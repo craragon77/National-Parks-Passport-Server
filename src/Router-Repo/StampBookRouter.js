@@ -102,4 +102,18 @@ StampBookRouter
             .catch(next)
     })
 
+StampBookRouter
+    .route('/userId/:id')
+    .get((req, res, next) => {
+        const knexInstance = req.app.get('db')
+        const userId = req.params.id
+        StampBookService.getUserStamp(
+            knexInstance, userId
+        )
+            .then(stamps => {
+                res.json(stamps)
+            })
+            .catch(next)
+    })
+
 module.exports = StampBookRouter
