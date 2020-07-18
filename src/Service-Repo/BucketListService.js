@@ -27,6 +27,12 @@ const BucketListService = {
         return knex('bucketlist')
         .where({bucketlist_id})
         .update(newContent)
+    },
+    getUserBucketlist(knex, user_id){
+        return knex
+        .select()
+        .from('bucketlist')
+        .where('user_id', user_id)
     }
 }
 
