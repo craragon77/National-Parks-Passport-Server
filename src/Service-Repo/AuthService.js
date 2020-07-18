@@ -32,6 +32,9 @@ const AuthService = {
             algorithm: 'HS256'
         })
     },
+    hashStoredId(user_id){
+        return bcrypt.hash(user_id, 12)
+    },
     verfiyJwt(token){
         return jwt.verify(token, config.JWT_SECRET, {
             algorithms: ['HS256']

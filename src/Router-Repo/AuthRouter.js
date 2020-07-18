@@ -43,10 +43,14 @@ AuthRouter
                         const sub = dbUser.username
                         const payload = {user_id: dbUser.id}
                         let authToken = `bearer ` + AuthService.createJwt(sub, payload)
+                        //you ae getting an error on this subsequent line :(
+                        let storedId = dbUser.id
                         console.log(authToken)
+                        console.log(storedId)
                         //the problem area is here!!!!!!!!
                         res.send({
-                            authToken
+                            authToken,
+                            storedId
                         })
                         
                     })
