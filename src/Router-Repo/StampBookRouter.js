@@ -104,7 +104,7 @@ StampBookRouter
 
 StampBookRouter
     .route('/userId/:id')
-    .get((req, res, next) => {
+    .get(jwtAuth, (req, res, next) => {
         const knexInstance = req.app.get('db')
         const userId = req.params.id
         StampBookService.getUserStamp(

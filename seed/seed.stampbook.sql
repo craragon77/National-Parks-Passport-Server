@@ -6,4 +6,10 @@ VALUES
 (2, 4, 'this is the fourth stamp'),
 (3, 1, 'this is the fifth stamp'),
 (3, 5, 'this is the sixth stamp'),
-(4, 6, 'this is the seventh stamp');
+(4, 6, 'this is the seventh stamp'),
+(92, 6, 'this is the stamp'),
+(92, 100, 'this is the stamp'),
+(92, 314, 'this is the stamp'),
+(92, 69, 'this is the stamp'),
+(92, 420, 'this is the stamp'),
+(92, 35, 'this is the stamp');

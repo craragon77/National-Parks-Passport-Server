@@ -7,7 +7,7 @@ const jsonParser = express.json();
 const { requireAuth } = require('../middleware/basic-auth');
 const { jwtAuth } = require('../middleware/jwt-auth');
 const path = require('path');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 
 UserRouter

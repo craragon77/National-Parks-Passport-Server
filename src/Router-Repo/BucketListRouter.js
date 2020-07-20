@@ -104,7 +104,7 @@ BucketListRouter
 
 BucketListRouter
     .route('/userId/:id')
-    .get((req, res, next) => {
+    .get(jwtAuth, (req, res, next) => {
         const knexInstance = req.app.get('db')
         const user_id = req.params.id
         BucketListService.getUserBucketlist(knexInstance, user_id)
