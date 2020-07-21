@@ -24,6 +24,7 @@ StampBookRouter
         const {stamp_id, park_id, stamp_date, comments} = req.body
         const newStamp = {stamp_id, park_id, stamp_date, comments}
         const knexInstance = req.app.get('db');
+        console.log(newStamp)
 
         //if(!user_id){
           //  res.status(400).send( {
@@ -36,11 +37,11 @@ StampBookRouter
             })
             
         }
-        if(!stamp_date){
-            return res.status(400).send({
-                error: {message: `Please double check that you are using a proper 'stamp_date'`}
-            })
-        }
+        //if(!stamp_date){
+          //  return res.status(400).send({
+            //    error: {message: `Please double check that you are using a proper 'stamp_date'`}
+            //})
+        //}
         //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
         newStamp.user_id = req.user.id
         StampBookService.postNewStamp(knexInstance, newStamp)

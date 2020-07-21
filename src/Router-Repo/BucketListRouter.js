@@ -23,7 +23,7 @@ BucketListRouter
         const {bucketlist_id, park_id} = req.body
         const newBucketList = {bucketlist_id, park_id}
         const knexInstance = req.app.get('db')
-
+        console.log(newBucketList)
         //if(!user_id){
           //  return res.status(400).send({
             //    error: {message: `Please doublecheck that you have entered a valid 'user_id'`}
@@ -41,7 +41,7 @@ BucketListRouter
             .then(bucket => {
                 res
                 .status(201)
-                .send(newBucketList)
+                //.send(newBucketList)
                 .location(`/bucketlist/${bucketlist_id}`)
                 .json(bucket)
             })
