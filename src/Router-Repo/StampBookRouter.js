@@ -31,12 +31,13 @@ StampBookRouter
             //})
         //}
         if(!park_id){
-            res.status(400).send({
+            return res.status(400).send({
                 error: {message: `Please double check that you are using a proper 'park-id'`}
             })
+            
         }
         if(!stamp_date){
-            res.status(400).send({
+            return res.status(400).send({
                 error: {message: `Please double check that you are using a proper 'stamp_date'`}
             })
         }
