@@ -33,6 +33,13 @@ const BucketListService = {
         .select()
         .from('bucketlist')
         .where('user_id', user_id)
+    },
+    getBucketlistAndNames(knex, user_id){
+        return knex
+        .select()
+        .from('bucketlist')
+        .leftJoin('parks', 'bucketlist.park_id', 'parks.id')
+        .where('user_id', user_id)
     }
 }
 

@@ -114,4 +114,16 @@ BucketListRouter
             .catch(next)
     })
 
+BucketListRouter
+.route('/info/:id')
+.get(jwtAuth, (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    const stampId = req.params.id
+    BucketListService.getBucketlistAndNames(knexInstance, stampId)
+        .then(stamps => {
+            res.json(stamps)
+        })
+        .catch(next)
+})
+
 module.exports = BucketListRouter
