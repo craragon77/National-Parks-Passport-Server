@@ -118,4 +118,28 @@ StampBookRouter
             .catch(next)
     })
 
+StampBookRouter
+    .route('/stampList/:id')
+    .get(jwtAuth, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        const userId = req.params.id
+        StampBookService.getStampsAndNames(knexInstance, userId)
+            .then(stamps => {
+                res.json(stamps)
+            })
+            .catch(next)
+    })
+
+StampBookRouter
+    .route('/stampInfo/:id')
+    .get(jwtAuth, (req, res, next) => {
+        const knexInstance = req.app.get('db')
+        const stampId = req.params.id
+        StampBookService.getStampAndParkById(knexInstance, stampId)
+            .then(stamps => {
+                res.json(stamps)
+            })
+            .catch(next)
+    })
+
 module.exports = StampBookRouter

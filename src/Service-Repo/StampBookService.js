@@ -33,6 +33,20 @@ const StampBookService = {
         .select()
         .from('stampbook')
         .where('user_id', user_id)
+    },
+    getStampsAndNames(knex, user_id){
+        return knex
+        .select()
+        .from('stampbook')
+        .leftJoin('parks', 'stampbook.park_id', 'parks.id')
+        .where('user_id', user_id)
+    },
+    getStampAndParkById(knex, stamp_id){
+        return knex
+        .select()
+        .from('stampbook')
+        .leftJoin('parks', 'stampbook.park_id', 'parks.id')
+        .where('stamp_id', stamp_id)
     }
 }
 
