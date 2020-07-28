@@ -10,7 +10,6 @@ const { jwtAuth } = require('../middleware/jwt-auth');
 
 ParkRouter
     .route('/')
-    //why is it that when the .all() method is used, it sometimes doesn't work?
     .all(jwtAuth)
     .get((req, res, next) => {
         ParkService.getAllParks(
@@ -20,7 +19,7 @@ ParkRouter
             res.json(parks)
         })
         .catch(next)
-    })
+    });
 
 ParkRouter
     .route('/name/:fullname')
@@ -34,7 +33,7 @@ ParkRouter
             res.json(park)
         })
         .catch(next)
-    })
+    });
 ParkRouter
     .route('/id/:id')
     .all(jwtAuth)
@@ -47,7 +46,7 @@ ParkRouter
             res.json(id)
         })
         .catch(next)
-    })
+    });
 
 
 module.exports = ParkRouter

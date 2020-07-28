@@ -15,108 +15,87 @@ StampBookRouter
             req.app.get('db')
         )
         .then(stamps => {
-            res.json(stamps)
+            res.json(stamps);
         })
-        .catch(next)
+        .catch(next);
     })
     .post(jsonParser, (req, res, next) => {
-        //user_id removed from request body as part of the protected endpoints thing-y
-        const {stamp_id, park_id, stamp_date, comments} = req.body
-        const newStamp = {stamp_id, park_id, stamp_date, comments}
+        const {stamp_id, park_id, stamp_date, comments} = req.body;
+        const newStamp = {stamp_id, park_id, stamp_date, comments};
         const knexInstance = req.app.get('db');
-        console.log(newStamp)
-
-        //if(!user_id){
-          //  res.status(400).send( {
-            //    error: {message: `Please double check that you are using a proper 'user-id'`}
-            //})
-        //}
         if(!park_id){
             return res.status(400).send({
                 error: {message: `Please double check that you are using a proper 'park-id'`}
-            })
-            
+            });
         }
-        //if(!stamp_date){
-          //  return res.status(400).send({
-            //    error: {message: `Please double check that you are using a proper 'stamp_date'`}
-            //})
-        //}
-        //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
-        newStamp.user_id = req.user.id
+        newStamp.user_id = req.user.id;
         StampBookService.postNewStamp(knexInstance, newStamp)
             .then(stamp => {
                 res
                 .status(201)
-                //.send(stamp)
                 .location(`/stampbook/${stamp_id}`)
-                .json(stamp)
+                .json(stamp);
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 StampBookRouter
     .route('/id/:stampId')
     .all(jwtAuth)
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db')
-        const stamp_id = req.params.stampId
+        const knexInstance = req.app.get('db');
+        const stamp_id = req.params.stampId;
         StampBookService.getStampById(
             knexInstance, stamp_id
         )
         .then(stamp => {
             res.json(stamp)
         })
-        .catch(next)
+        .catch(next);
     })
     .delete(jsonParser, (req, res, next) => {
-        const knexInstance = req.app.get('db')
+        const knexInstance = req.app.get('db');
         StampBookService.deleteStamp(knexInstance, req.params.stampId)
             .then(() => {
                 res
                 .status(204)
                 .send('stamp successfully deleted!')
-                .end()
+                .end();
             })
-            .catch(next)
+            .catch(next);
     })
     .patch(jsonParser, (req, res, next) => {
         const knexInstance = req.app.get('db')
-        //removed user_id from req.body part here cause its a part of the requireAuth function thingy
         const {park_id, stamp_date, comments} = req.body
         const stampContent = {park_id, stamp_date, comments}
-        console.log(stampContent)
-        console.log(req.params.stampId)
-        console.log(req.body)
         const patchParamsCheck = Object.values(stampContent).filter(Boolean).length
             if (patchParamsCheck === 0)
                 return res.status(404).json({
                     error:{
                         message: `Request must include all necessary parameters. Please double check you have chosen a park, date, and comments to change`
                     }
-                })
-        //see comment above for why this is happening here
+                });
         stampContent.user_id = req.user.id
         StampBookService.updateStamp(knexInstance, req.params.stampId , stampContent)
             .then(() => {
-                res.status(204).end()
+                res.status(204).end();
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 StampBookRouter
     .route('/userId/:id')
     .get(jwtAuth, (req, res, next) => {
-        const knexInstance = req.app.get('db')
-        const userId = req.params.id
+        const knexInstance = req.app.get('db');
+        const userId = req.params.id;
         StampBookService.getUserStamp(
             knexInstance, userId
         )
             .then(stamps => {
                 res.json(stamps)
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 StampBookRouter
     .route('/stampList/:id')
@@ -127,8 +106,8 @@ StampBookRouter
             .then(stamps => {
                 res.json(stamps)
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 StampBookRouter
     .route('/stampInfo/:id')
@@ -139,7 +118,7 @@ StampBookRouter
             .then(stamps => {
                 res.json(stamps)
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 module.exports = StampBookRouter

@@ -1,26 +1,13 @@
-# Express Boilerplate!
+The National Parks Discover-E-Pass is a paperless passport to America's 490+ National Parks and Monuments. Record every one you visit with the click of a button. To view the client repo, click here: https://github.com/craragon77/National-Parks-Passport-Client
 
-This is a boilerplate project used for starting new projects!
+Live database: https://tranquil-wildwood-36569.herokuapp.com/
 
-## Set up
+This program is inspiried by the Passport to your National Parks books made and distributed by Eastern National, and the many National Parks of the United States National Parks Service. To access the backend server and its data, create a username and password to create an account. This will create an authentication that you can use to view and access backend data. Access for standard users is more limited than admin users. 
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+![Dashboard Image](https://github.com/craragon77/National-Parks-Passport-Client/blob/master/src/pics/README-snapshot-4.jpg)
+![Park Search Image](https://github.com/craragon77/National-Parks-Passport-Client/blob/master/src/pics/README-snapshot-3.jpg)
+![Stamp Image](https://github.com/craragon77/National-Parks-Passport-Client/blob/master/src/pics/README-snapshot-2.jpg)
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+The National Parks Discover-E-Pass server was built on an express server using Node, PostgreSQL, Mocha, and Chai
 
-## Scripts
-
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests `npm test`
-
-## Deploying
-
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+Special thanks to my advisor Jaina Morgan for her help and support, as well as Matt Condit, Andrew Savage, and all those who work hard to preserve the environmental, historic, and cultural wonders of our country for future generations. 

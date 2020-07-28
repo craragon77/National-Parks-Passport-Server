@@ -14,55 +14,45 @@ BucketListRouter
             req.app.get('db')
         )
         .then(bucket => {
-            res.json(bucket)
+            res.json(bucket);
         })
-        .catch(next)
+        .catch(next);
     })
     .post(jsonParser, (req, res, next) => {
-        //removed the user_id thingy from the req.body because I was told to
-        const {bucketlist_id, park_id} = req.body
-        const newBucketList = {bucketlist_id, park_id}
-        const knexInstance = req.app.get('db')
-        console.log(newBucketList)
-        //if(!user_id){
-          //  return res.status(400).send({
-            //    error: {message: `Please doublecheck that you have entered a valid 'user_id'`}
-            //})
-        //}
+        const {bucketlist_id, park_id} = req.body;
+        const newBucketList = {bucketlist_id, park_id};
+        const knexInstance = req.app.get('db');
         if(!park_id){
             return res.status(400).send({
-                error: {message: `Please doublecheck that you have entered a valid 'park_id'`}
-            })
+                error: {message: `Please double check that you have entered a valid 'park_id'`}
+            });
         }
-        //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
-        newBucketList.user_id = req.user.id
+        newBucketList.user_id = req.user.id;
 
         BucketListService.postNewBucketList(knexInstance, newBucketList)
             .then(bucket => {
                 res
                 .status(201)
-                //.send(newBucketList)
                 .location(`/bucketlist/${bucketlist_id}`)
                 .json(bucket)
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 BucketListRouter
     .route('/id/:bucketlistId')
     .all(jwtAuth)
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db')
-        const bucketlist_id = req.params.bucketlistId
+        const knexInstance = req.app.get('db');
+        const bucketlist_id = req.params.bucketlistId;
         BucketListService.getBucketListById(knexInstance, bucketlist_id)
             .then(id => {
-                res.json(id)
+                res.json(id);
             })
-            .catch(next)
+            .catch(next);
     })
     .delete(jsonParser, (req, res, next) => {
-        const knexInstance = req.app.get('db')
-        console.log(req.params.bucketlistId)
+        const knexInstance = req.app.get('db');
         BucketListService.deleteBucketList(
             knexInstance, req.params.bucketlistId
         )
@@ -71,59 +61,53 @@ BucketListRouter
             .status(204)
             .end()
         })
-        .catch(next)
+        .catch(next);
     })
     .patch(jsonParser, (req, res, next) => {
-        //removing the user_id thingy from the whatever because I was told to #narf
-        const {bucketlistId, park_id} = req.body
-        const bucketlistToUpdate = {park_id}
-        const knexInstance = req.app.get('db')
-        const bucketlist_id = Object.values({bucketlistId})
+        const {bucketlistId, park_id} = req.body;
+        const bucketlistToUpdate = {park_id};
+        const knexInstance = req.app.get('db');
+        const bucketlist_id = Object.values({bucketlistId});
 
-        console.log(bucketlistToUpdate)
-        console.log(req.params.bucketlistId)
-
-        const bucketlistChecker = Object.values(bucketlistToUpdate).filter(Boolean).length
+        const bucketlistChecker = Object.values(bucketlistToUpdate).filter(Boolean).length;
         if(bucketlistChecker === 0){
             return res.status(404).json({
                 error: {
                     message: `bucketlist item not found`
                 }
-            })
+            });
         }
-
-        //this will make sure that the server adds the appropriate user_id automatically based on the authorization header (wow!)
-        bucketlistToUpdate.user_id = req.user.id
+        bucketlistToUpdate.user_id = req.user.id;
 
         BucketListService.updateBucketList(knexInstance, req.params.bucketlistId , bucketlistToUpdate)
             .then(() => {
-                res.status(204).end()
+                res.status(204).end();
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 BucketListRouter
     .route('/userId/:id')
     .get(jwtAuth, (req, res, next) => {
-        const knexInstance = req.app.get('db')
-        const user_id = req.params.id
+        const knexInstance = req.app.get('db');
+        const user_id = req.params.id;
         BucketListService.getUserBucketlist(knexInstance, user_id)
             .then(id => {
-                res.json(id)
+                res.json(id);
             })
-            .catch(next)
-    })
+            .catch(next);
+    });
 
 BucketListRouter
 .route('/info/:id')
 .get(jwtAuth, (req, res, next) => {
-    const knexInstance = req.app.get('db')
-    const stampId = req.params.id
+    const knexInstance = req.app.get('db');
+    const stampId = req.params.id;
     BucketListService.getBucketlistAndNames(knexInstance, stampId)
         .then(stamps => {
-            res.json(stamps)
+            res.json(stamps);
         })
-        .catch(next)
-})
+        .catch(next);
+});
 
 module.exports = BucketListRouter

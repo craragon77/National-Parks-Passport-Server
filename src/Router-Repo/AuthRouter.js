@@ -8,73 +8,43 @@ const {jwtAuth} = require('../middleware/jwt-auth');
 
 AuthRouter
     .route('/login')
-    //take a mental note that the requireAuth might not be entirely necessary
     .post(jsonParser, (req, res, next) => {
-        console.log(req.body)
-        const {username, password} = req.body
-        const loginUser = {username, password}
-        //const password = {password}
-        const knexInstance = req.app.get('db')
+        const {username, password} = req.body;
+        const loginUser = {username, password};
+        const knexInstance = req.app.get('db');
 
         for (const [key, value] of Object.entries(loginUser))
             if(value == null){
                 return res.status(400).json({
                     error: `Missing '${key}' in request body`
-                })
+                });
             }
-            //ooooh this one means that it worked!
-            //res.send('ok (but this is the specific ok from the authRouter post for loop thingy)')
-            //but its the getUser function thingy that isn't working
         AuthService.getUserWithUserName(knexInstance,loginUser.username)
             .then(dbUser => {
                 if(!dbUser){
                     return res.status(400).json({
-                        //testing this endpoint now
                         error: 'Incorrect username or password. Please try again'
-                    })
+                    });
                 }
                 return AuthService.comparePasswords(loginUser.password, dbUser.password)
                     .then(compareMatch => {
                         if(!compareMatch)
                             return res.status(400).json({
                                 error: 'Incorrect username or password, SON!'
-                            })
-                            //ok ok ok so we are here, i guess that's good
-                        const sub = dbUser.username
-                        const payload = {user_id: dbUser.id}
-                        let authToken = `bearer ` + AuthService.createJwt(sub, payload)
-                        //you ae getting an error on this subsequent line :(
-                        let storedId = dbUser.id
-                        console.log(authToken)
-                        console.log(storedId)
-                        //the problem area is here!!!!!!!!
+                            });
+                        const sub = dbUser.username;
+                        const payload = {user_id: dbUser.id};
+                        let authToken = `bearer ` + AuthService.createJwt(sub, payload);
+                        let storedId = dbUser.id;
                         res.send({
                             authToken,
                             storedId
-                        })
+                        });
                         
                     })
-                    .catch(next)
+                    .catch(next);
             })
-            .catch(next)
-
-        /*if(!username){
-           return res.status(400).json({
-                error: {messge: 'please enter a username'}
-            })
-        }
-        
-        if(!password){
-            return res.status(400).json({
-                error: {message: 'please enter a password'}
-            })
-        }
-    AuthService.AuthUsers(knexInstance, loggingIn)
-        .then(user => {
-            res
-            .status(201)
-            .json(user)
-        }) */
-})
+            .catch(next);
+});
 
 module.exports = AuthRouter

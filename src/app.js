@@ -12,14 +12,14 @@ const StampBookRouter = require('./Router-Repo/StampBookRouter');
 const BucketListRouter = require('./Router-Repo/BucketListRouter');
 const AuthRouter = require('./Router-Repo/AuthRouter');
 
-const app = express()
+const app = express();
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
-app.use(morgan(morganOption))
-app.use(helmet())
-app.use(cors())
+app.use(morgan(morganOption));
+app.use(helmet());
+app.use(cors());
 app.use(
     cors({
         origin: CLIENT_ORIGIN
@@ -29,21 +29,21 @@ app.use(
 const knexInstance = knex({
     client: 'pg',
     connection: process.env.DATABASE_URL
-})
+});
 
 app.get('/', (req,res) => {
     res.send('Hello, Dave')
-})
+});
 
-app.use('/api/parks', ParkRouter)
+app.use('/api/parks', ParkRouter);
 
-app.use('/api/users', UserRouter)
+app.use('/api/users', UserRouter);
 
-app.use('/api/stampbook', StampBookRouter)
+app.use('/api/stampbook', StampBookRouter);
 
-app.use('/api/bucketlist', BucketListRouter)
+app.use('/api/bucketlist', BucketListRouter);
 
-app.use('/api/auth/', AuthRouter)
+app.use('/api/auth/', AuthRouter);
 
 app.use(function errorHandler(error, req, res, next) {
     let response
@@ -54,6 +54,6 @@ app.use(function errorHandler(error, req, res, next) {
         response = { message: error.message, error }
     }
     res.status(500).json(response)
-    })
+    });
 
 module.exports = app
