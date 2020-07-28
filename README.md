@@ -10,4 +10,6 @@ This program is inspiried by the Passport to your National Parks books made and 
 
 The National Parks Discover-E-Pass server was built on an express server using Node, PostgreSQL, Mocha, and Chai
 
+The data in the database is courtesy of the National Parks Service API, whose data can be found here: https://www.nps.gov/subjects/developer/api-documentation.htm
+
 Special thanks to my advisor Jaina Morgan for her help and support, as well as Matt Condit, Andrew Savage, and all those who work hard to preserve the environmental, historic, and cultural wonders of our country for future generations. 
