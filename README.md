@@ -8,7 +8,7 @@ This program is inspiried by the Passport to your National Parks books made and 
 ![Park Search Image](https://github.com/craragon77/National-Parks-Passport-Client/blob/master/src/pics/README-snapshot-3.jpg)
 ![Stamp Image](https://github.com/craragon77/National-Parks-Passport-Client/blob/master/src/pics/README-snapshot-2.jpg)
 
-The National Parks Discover-E-Pass server was built on an express server using Node, PostgreSQL, Mocha, and Chai
+The National Parks Discover-E-Pass server was built on an express server using Node, PostgreSQL, Mocha, and Chai. To deploy, type into the command line "npm start" or "npm run dev".
 
 The data in the database is courtesy of the National Parks Service API, whose data can be found here: https://www.nps.gov/subjects/developer/api-documentation.htm
 
